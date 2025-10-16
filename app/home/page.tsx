@@ -288,7 +288,7 @@ export default function HomePage() {
             <div>
               <h4 className="text-white font-bold mb-4">Contact</h4>
               <p className="text-sm">📧 info@studentnest.rw</p>
-              <p className="text-sm">📞 +250 XXX XXX XXX</p>
+              <p className="text-sm">📞 +250 796 590 496</p>
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-sm">

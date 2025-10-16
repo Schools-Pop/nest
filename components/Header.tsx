@@ -156,7 +156,7 @@ export default function Header() {
               </Link>
 
               {/* Mobile Language Selector */}
-              <div className="border-t pt-3 mt-3">
+              {/* <div className="border-t pt-3 mt-3">
                 <p className="text-xs font-semibold text-gray-600 px-4 mb-2">Languages</p>
                 <div className="space-y-1">
                   {languages.map((lang) => (
@@ -173,7 +173,7 @@ export default function Header() {
                     </button>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               <Link
                 href="/auth/login"
