@@ -113,6 +113,7 @@ export default function FindPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* <Header /> */}
 
       {/* School Selection Filter */}
       <div className="bg-white shadow-sm border-b">
@@ -141,6 +142,41 @@ export default function FindPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* People Looking for Roommates Section */}
+        {selectedSchool && (
+          <div className="mb-12">
+            <div className="bg-gradient-to-r from-blue-50 to-cyan-50 rounded-2xl shadow-md overflow-hidden">
+              <div className="p-6 md:p-8">
+                <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+                  <div className="flex-1">
+                    <h2 className="text-3xl font-bold text-gray-900 mb-2">
+                      🤝 Looking for Roommates?
+                    </h2>
+                    <p className="text-gray-700 mb-4">
+                      Connect with students searching for roommates to share housing costs and build community. Browse profiles and find your perfect roommate match!
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Link
+                        href="/roommates"
+                        className="px-6 py-2 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition text-center"
+                      >
+                        See Roommate Profiles →
+                      </Link>
+                      <Link
+                        href="/post-roommate"
+                        className="px-6 py-2 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition text-center"
+                      >
+                        Post Your Profile
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="text-6xl">👥</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar - Filters */}
           <div

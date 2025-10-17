@@ -235,6 +235,51 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Roommates Section */}
+      <section className="py-24 px-6 bg-white">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-gray-900 mb-4">
+              Find Your Perfect Roommate
+            </h2>
+            <p className="text-xl text-gray-600">
+              Connect with students looking for roommates and share your accommodation
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-full max-w-2xl">
+              <div className="bg-gradient-to-br from-blue-50 to-cyan-50 rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all">
+                <div className="p-8 md:p-12">
+                  <div className="text-center mb-8">
+                    <div className="text-7xl mb-6">🤝</div>
+                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Looking for Roommates?</h3>
+                    <p className="text-gray-700 text-lg mb-8">
+                      Find students searching for roommates to share housing costs and build a community. Split rent, share experiences, and make new friends!
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/roommates"
+                      className="flex-1 px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 transition text-center text-base"
+                    >
+                      Search Profiles →
+                    </Link>
+                    <Link
+                      href="/addroommate"
+                      className="flex-1 px-6 py-3 border-2 border-blue-600 text-blue-600 font-bold rounded-lg hover:bg-blue-50 transition text-center text-base"
+                    >
+                      Post Your Profile
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
