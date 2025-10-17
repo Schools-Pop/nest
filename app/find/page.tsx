@@ -113,7 +113,6 @@ export default function FindPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* <Header /> */}
 
       {/* School Selection Filter */}
       <div className="bg-white shadow-sm border-b">
@@ -239,6 +238,9 @@ export default function FindPage() {
                             </div>
                             <p className="font-bold text-gray-900">
                               {listing.distanceFromSchool.toFixed(1)} km
+                            </p>
+                            <p className="text-xs text-gray-600 mt-1">
+                              ({calculateWalkingTime(listing.distanceFromSchool)} walk)
                             </p>
                           </div>
                           <div className="text-center border-l border-r border-gray-200">

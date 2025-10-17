@@ -1,21 +1,28 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
+// const geistSans = Geist({
+//   variable: "--font-geist-sans",
+//   subsets: ["latin"],
+// });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "StudentNest - Student Housing, Food & Marketplace",
-  description: "Your complete student platform for housing, food delivery, and community marketplace in Rwanda",
+  title: "StudentNest - Student Housing, Restaurants & Marketplace",
+  description: "Your complete student platform for housing, restaurant recommendations, and community marketplace in Rwanda",
 };
 
 export default function RootLayout({
@@ -30,7 +37,7 @@ export default function RootLayout({
         <meta name="google-site-verification" content="your-verification-code" />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${montserrat.variable} ${montserrat.variable} ${montserrat.variable} antialiased`}
       >
         <Header />
         {children}

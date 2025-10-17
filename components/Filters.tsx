@@ -19,6 +19,10 @@ export default function Filters({
   setMaxDistanceFromBusStop,
   onReset,
 }: FilterProps) {
+  // Calculate walking times (approximately 12 minutes per km = 5km/h)
+  const walkingTimeToSchool = Math.round(maxDistanceFromSchool * 12);
+  const walkingTimeToBusStop = Math.round(maxDistanceFromBusStop * 12);
+
   return (
     <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
       <h3 className="text-lg font-bold text-gray-900 mb-6">Filters</h3>
@@ -48,11 +52,12 @@ export default function Filters({
         <label className="block text-sm font-semibold text-gray-900 mb-2">
           Max Distance from School: {maxDistanceFromSchool.toFixed(1)} km
         </label>
+        <p className="text-xs text-gray-600 mb-2">({walkingTimeToSchool} min walk)</p>
         <input
           type="range"
           min="0.5"
           max="10"
-          step="0.5"
+          step="0.1"
           value={maxDistanceFromSchool}
           onChange={(e) => setMaxDistanceFromSchool(parseFloat(e.target.value))}
           className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-indigo-600"
@@ -68,6 +73,7 @@ export default function Filters({
         <label className="block text-sm font-semibold text-gray-900 mb-2">
           Max Distance from Bus Stop: {maxDistanceFromBusStop.toFixed(1)} km
         </label>
+        <p className="text-xs text-gray-600 mb-2">({walkingTimeToBusStop} min walk)</p>
         <input
           type="range"
           min="0.1"

@@ -110,14 +110,14 @@ export default function SalePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Navigation */}
-      <nav className="sticky top-0 z-50 bg-white shadow-sm">
+      {/* <nav className="sticky top-0 z-50 bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
           <Link href="/" className="text-2xl font-bold text-indigo-600">
             StudentNest
           </Link>
           <p className="text-gray-600">Sell Your Item</p>
         </div>
-      </nav>
+      </nav> */}
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-6 py-8">

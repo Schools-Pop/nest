@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@next/font": "^14.2.15",
     "@vitalets/google-translate-api": "^9.2.1",
     "firebase": "^12.4.0",
     "next": "15.5.5",

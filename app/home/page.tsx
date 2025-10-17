@@ -16,9 +16,37 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="bg-gradient-to-br from-indigo-600 via-purple-600 to-indigo-700 text-white py-24 px-6 relative overflow-hidden">
+        <style jsx>{`
+          @keyframes float-right {
+            0%, 100% {
+              transform: translateX(0px) translateY(0px);
+            }
+            50% {
+              transform: translateX(30px) translateY(-30px);
+            }
+          }
+
+          @keyframes float-left {
+            0%, 100% {
+              transform: translateX(0px) translateY(0px);
+            }
+            50% {
+              transform: translateX(-30px) translateY(30px);
+            }
+          }
+
+          .circle-right {
+            animation: float-right 6s ease-in-out infinite;
+          }
+
+          .circle-left {
+            animation: float-left 8s ease-in-out infinite;
+          }
+        `}</style>
+
         <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full"></div>
-          <div className="absolute bottom-0 left-0 w-72 h-72 bg-white rounded-full"></div>
+          <div className="absolute top-0 right-0 w-96 h-96 bg-white rounded-full circle-right"></div>
+          <div className="absolute bottom-0 left-0 w-72 h-72 bg-white rounded-full circle-left"></div>
         </div>
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="text-center mb-12">
@@ -29,7 +57,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-indigo-100 max-w-2xl mx-auto mb-8">
-              Find your perfect home, discover amazing food, and support your peers through our integrated student community platform.
+              Find your perfect home, discover trusted restaurants from your peers, and quickly sell items you no longer need.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
               <button
@@ -94,56 +122,56 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Food Card */}
+            {/* Restaurant Recommendations Card */}
             <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden h-full">
               <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 opacity-0 group-hover:opacity-10 transition"></div>
               <div className="p-8 relative z-10">
                 <div className="text-7xl mb-6">🍽️</div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-3">Food Marketplace</h3>
+                <h3 className="text-3xl font-bold text-gray-900 mb-3">Food Guide</h3>
                 <p className="text-gray-600 mb-6 text-lg">
-                  Discover authentic African cuisine from restaurants across Kigali. Food delivery designed for student budgets.
+                  Discover authentic African restaurants recommended by fellow students. Real reviews from people who've actually eaten there.
                 </p>
                 <ul className="space-y-2 mb-8">
+                  <li className="flex items-center gap-2 text-gray-700">
+                    <span className="text-orange-600">✓</span> Peer recommendations
+                  </li>
+                  <li className="flex items-center gap-2 text-gray-700">
+                    <span className="text-orange-600">✓</span> Authentic reviews
+                  </li>
                   <li className="flex items-center gap-2 text-gray-700">
                     <span className="text-orange-600">✓</span> African cuisines
                   </li>
                   <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> Budget-friendly prices
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> Fast delivery
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> Real reviews
+                    <span className="text-orange-600">✓</span> Student favorites
                   </li>
                 </ul>
                 <Link
                   href="/food"
                   className="inline-block w-full text-center px-6 py-3 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition"
                 >
-                  Order Food →
+                  Explore Restaurants →
                 </Link>
               </div>
             </div>
 
-            {/* Marketplace Card */}
+            {/* Quick Marketplace Card */}
             <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden h-full">
               <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-teal-600 opacity-0 group-hover:opacity-10 transition"></div>
               <div className="p-8 relative z-10">
                 <div className="text-7xl mb-6">🛒</div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-3">Student Marketplace</h3>
+                <h3 className="text-3xl font-bold text-gray-900 mb-3">Quick Sell</h3>
                 <p className="text-gray-600 mb-6 text-lg">
-                  Buy and sell items from fellow students. Furniture, electronics, books, and more at student-friendly prices.
+                  Quickly sell items you no longer need to fellow students. Furniture, electronics, books, and more at student-friendly prices.
                 </p>
                 <ul className="space-y-2 mb-8">
                   <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Furniture & home items
+                    <span className="text-green-600">✓</span> Fast listings
                   </li>
                   <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Electronics & gadgets
+                    <span className="text-green-600">✓</span> Trusted buyers & sellers
                   </li>
                   <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Books & supplies
+                    <span className="text-green-600">✓</span> Easy transactions
                   </li>
                   <li className="flex items-center gap-2 text-gray-700">
                     <span className="text-green-600">✓</span> Support your peers
@@ -157,7 +185,7 @@ export default function HomePage() {
                     Buy →
                   </Link>
                   <Link
-                    href="/sale"
+                    href="/sell"
                     className="flex-1 text-center px-6 py-3 border-2 border-green-600 text-green-600 font-bold rounded-lg hover:bg-green-50 transition"
                   >
                     Sell →
@@ -181,7 +209,7 @@ export default function HomePage() {
               { icon: '📱', title: 'Easy to Use', desc: 'Intuitive platform designed specifically for students' },
               { icon: '💰', title: 'Affordable', desc: 'Budget-friendly options from landlords and sellers' },
               { icon: '🌍', title: 'Community', desc: 'Connect with international students and support each other' },
-              { icon: '⚡', title: 'Fast & Reliable', desc: 'Quick responses and same-day delivery options' },
+              { icon: '⚡', title: 'Fast & Reliable', desc: 'Quick responses and same-day availability' },
               { icon: '🔒', title: 'Secure', desc: 'Your data is protected with industry-standard security' },
             ].map((feature, idx) => (
               <div
@@ -206,8 +234,8 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               { num: 1, title: 'Sign Up', desc: 'Create your free account in minutes' },
-              { num: 2, title: 'Explore', desc: 'Browse housing, food, and marketplace' },
-              { num: 3, title: 'Connect', desc: 'Message landlords, order food, or buy/sell items' },
+              { num: 2, title: 'Explore', desc: 'Browse housing, restaurants, and marketplace' },
+              { num: 3, title: 'Connect', desc: 'Message landlords, share reviews, or buy/sell items' },
             ].map((step) => (
               <div key={step.num} className="relative">
                 <div className="bg-white p-8 rounded-xl shadow-lg text-center">
@@ -233,7 +261,7 @@ export default function HomePage() {
             {[
               { stat: '5,000+', label: 'Active Students' },
               { stat: '1,200+', label: 'Verified Houses' },
-              { stat: '150+', label: 'Restaurants' },
+              { stat: '200+', label: 'Restaurants' },
               { stat: '10,000+', label: 'Marketplace Items' },
             ].map((item, idx) => (
               <div key={idx}>
@@ -273,7 +301,7 @@ export default function HomePage() {
               <h4 className="text-white font-bold mb-4">Services</h4>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/find" className="hover:text-white transition">🏠 Find Housing</Link></li>
-                <li><Link href="/food" className="hover:text-white transition">🍽️ Order Food</Link></li>
+                <li><Link href="/food" className="hover:text-white transition">🍽️ Restaurant Guide</Link></li>
                 <li><Link href="/buy" className="hover:text-white transition">🛒 Marketplace</Link></li>
               </ul>
             </div>

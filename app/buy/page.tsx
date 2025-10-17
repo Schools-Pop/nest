@@ -3,6 +3,7 @@
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
 
 interface Item {
   id: string;
@@ -155,36 +156,23 @@ export default function BuyPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      {/* <nav className="sticky top-0 z-50 bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-indigo-600">
-            StudentNest
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link href="/sell" className="px-4 py-2 text-indigo-600 font-semibold hover:bg-indigo-50 rounded-lg transition">
-              Sell Item
-            </Link>
-            <button
-              onClick={() => setSidebarOpen(!sidebarOpen)}
-              className="md:hidden px-4 py-2 bg-indigo-600 text-white rounded-lg"
-            >
-              {sidebarOpen ? '✕' : '☰'} Filters
-            </button>
-          </div>
-        </div>
-      </nav> */}
 
       {/* Search Bar */}
       <div className="bg-white shadow-sm border-b py-4 px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex gap-3 items-center">
           <input
             type="text"
-            placeholder="Search for items (furniture, electronics, books...)"
+            placeholder="Search for items..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 placeholder-gray-500"
+            className="flex-1 min-w-0 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 placeholder-gray-500 text-sm sm:text-base"
           />
+          <Link
+            href="/sale"
+            className="px-4 sm:px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition whitespace-nowrap text-sm sm:text-base"
+          >
+            + Sell
+          </Link>
         </div>
       </div>
 
@@ -200,12 +188,27 @@ export default function BuyPage() {
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
               <h3 className="text-lg font-bold text-gray-900 mb-6">Filters</h3>
 
-              {/* Category Filter */}
+              {/* Category Filter - Dropdown on Mobile, List on Desktop */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
                   Category
                 </label>
-                <div className="space-y-2">
+                
+                {/* Mobile: Dropdown */}
+                <select
+                  value={selectedCategory}
+                  onChange={(e) => setSelectedCategory(e.target.value)}
+                  className="w-full lg:hidden px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 font-medium"
+                >
+                  {CATEGORIES.map((category) => (
+                    <option key={category} value={category}>
+                      {category}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Desktop: Button List */}
+                <div className="hidden lg:space-y-2 lg:block">
                   {CATEGORIES.map((category) => (
                     <button
                       key={category}
@@ -222,12 +225,27 @@ export default function BuyPage() {
                 </div>
               </div>
 
-              {/* Condition Filter */}
+              {/* Condition Filter - Dropdown on Mobile, List on Desktop */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
                   Condition
                 </label>
-                <div className="space-y-2">
+                
+                {/* Mobile: Dropdown */}
+                <select
+                  value={selectedCondition}
+                  onChange={(e) => setSelectedCondition(e.target.value)}
+                  className="w-full lg:hidden px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 font-medium"
+                >
+                  {CONDITIONS.map((condition) => (
+                    <option key={condition} value={condition}>
+                      {condition}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Desktop: Button List */}
+                <div className="hidden lg:space-y-2 lg:block">
                   {CONDITIONS.map((condition) => (
                     <button
                       key={condition}

@@ -115,18 +115,23 @@ export default function FoodPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* <Header /> */}
 
       {/* Search Bar */}
       <div className="bg-white shadow-sm border-b py-4 px-6">
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto flex gap-3 items-center">
           <input
             type="text"
-            placeholder="Search restaurants by name or cuisine (Rwandan, Ethiopian, Nigerian...)"
+            placeholder="Search restaurants by name or cuisine..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 placeholder-gray-500"
+            className="flex-1 min-w-0 px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 placeholder-gray-500 text-sm sm:text-base"
           />
+          <Link
+            href="/addfood"
+            className="px-4 sm:px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition whitespace-nowrap text-sm sm:text-base"
+          >
+            + Add
+          </Link>
         </div>
       </div>
 
@@ -142,12 +147,27 @@ export default function FoodPage() {
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
               <h3 className="text-lg font-bold text-gray-900 mb-6">Filters</h3>
 
-              {/* Cuisine Filter */}
+              {/* Cuisine Filter - Dropdown on Mobile, List on Desktop */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-900 mb-3">
                   Cuisine Type
                 </label>
-                <div className="space-y-2 max-h-64 overflow-y-auto">
+                
+                {/* Mobile: Dropdown */}
+                <select
+                  value={selectedCuisine}
+                  onChange={(e) => setSelectedCuisine(e.target.value)}
+                  className="w-full lg:hidden px-3 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 font-medium"
+                >
+                  {CUISINES.map((cuisine) => (
+                    <option key={cuisine} value={cuisine}>
+                      {cuisine}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Desktop: Button List */}
+                <div className="hidden lg:space-y-2 lg:block max-h-64 overflow-y-auto">
                   {CUISINES.map((cuisine) => (
                     <button
                       key={cuisine}
@@ -312,9 +332,9 @@ export default function FoodPage() {
                         <div>📍 {restaurant.address}</div>
                       </div>
 
-                      {/* Min Order */}
-                      <div className="text-sm text-gray-600 mb-3">
-                        Min order: {restaurant.minOrder.toLocaleString()} RWF
+                      {/* Opening Hours */}
+                      <div className="text-xs text-gray-600 mb-3">
+                        🕐 {restaurant.openingHours}
                       </div>
 
                       {/* Dishes Preview */}
@@ -337,15 +357,10 @@ export default function FoodPage() {
                         </div>
                       </div>
 
-                      {/* Action Buttons */}
-                      <div className="grid grid-cols-2 gap-2">
-                        <button className="px-3 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">
-                          View Menu
-                        </button>
-                        <button className="px-3 py-2 border-2 border-indigo-600 text-indigo-600 text-sm font-semibold rounded-lg hover:bg-indigo-50 transition">
-                          Call
-                        </button>
-                      </div>
+                      {/* Action Button */}
+                      <button className="w-full px-3 py-2 bg-indigo-600 text-white text-sm font-semibold rounded-lg hover:bg-indigo-700 transition">
+                        View Reviews & Menu
+                      </button>
                     </div>
                   </div>
                 ))}
