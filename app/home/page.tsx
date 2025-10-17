@@ -57,7 +57,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-indigo-100 max-w-2xl mx-auto mb-8">
-              Find your perfect home, discover trusted restaurants from your peers, and quickly sell items you no longer need.
+              Find your perfect home, discover trusted restaurants, explore opportunities, and quickly sell items you no longer need.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
               <button
@@ -85,111 +85,149 @@ export default function HomePage() {
               Everything You Need
             </h2>
             <p className="text-xl text-gray-600">
-              Three essential services designed for international students in Rwanda
+              Five essential services designed for international students in Rwanda
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Housing Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden h-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 to-indigo-600 opacity-0 group-hover:opacity-10 transition"></div>
-              <div className="p-8 relative z-10">
-                <div className="text-7xl mb-6">🏠</div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-3">Smart Housing</h3>
-                <p className="text-gray-600 mb-6 text-lg">
-                  Find verified student-friendly accommodations with real-time distance to campus, bus stops, and transport costs.
-                </p>
-                <ul className="space-y-2 mb-8">
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-indigo-600">✓</span> Distance to campus
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-indigo-600">✓</span> Transport cost estimates
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-indigo-600">✓</span> Direct landlord contact
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-indigo-600">✓</span> Pre-arrival booking
-                  </li>
-                </ul>
-                <Link
-                  href="/find"
-                  className="inline-block w-full text-center px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition"
-                >
-                  Browse Houses →
-                </Link>
-              </div>
-            </div>
-
-            {/* Restaurant Recommendations Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden h-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-red-600 opacity-0 group-hover:opacity-10 transition"></div>
-              <div className="p-8 relative z-10">
-                <div className="text-7xl mb-6">🍽️</div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-3">Food Guide</h3>
-                <p className="text-gray-600 mb-6 text-lg">
-                  Discover authentic African restaurants recommended by fellow students. Real reviews from people who've actually eaten there.
-                </p>
-                <ul className="space-y-2 mb-8">
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> Peer recommendations
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> Authentic reviews
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> African cuisines
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-orange-600">✓</span> Student favorites
-                  </li>
-                </ul>
-                <Link
-                  href="/food"
-                  className="inline-block w-full text-center px-6 py-3 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition"
-                >
-                  Explore Restaurants →
-                </Link>
-              </div>
-            </div>
-
-            {/* Quick Marketplace Card */}
-            <div className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition overflow-hidden h-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-green-400 to-teal-600 opacity-0 group-hover:opacity-10 transition"></div>
-              <div className="p-8 relative z-10">
-                <div className="text-7xl mb-6">🛒</div>
-                <h3 className="text-3xl font-bold text-gray-900 mb-3">Quick Sell</h3>
-                <p className="text-gray-600 mb-6 text-lg">
-                  Quickly sell items you no longer need to fellow students. Furniture, electronics, books, and more at student-friendly prices.
-                </p>
-                <ul className="space-y-2 mb-8">
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Fast listings
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Trusted buyers & sellers
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Easy transactions
-                  </li>
-                  <li className="flex items-center gap-2 text-gray-700">
-                    <span className="text-green-600">✓</span> Support your peers
-                  </li>
-                </ul>
-                <div className="flex gap-3">
+          <div className="flex justify-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+              {/* Housing Card */}
+              <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="text-5xl mb-4">🏠</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Smart Housing</h3>
+                  <p className="text-gray-600 mb-4 text-sm flex-1">
+                    Find verified student-friendly accommodations with real-time distance to campus and transport costs.
+                  </p>
+                  <ul className="space-y-2 mb-6 text-xs">
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-indigo-600 font-bold">✓</span> Distance to campus
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-indigo-600 font-bold">✓</span> Transport costs
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-indigo-600 font-bold">✓</span> Landlord contact
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-indigo-600 font-bold">✓</span> Pre-arrival booking
+                    </li>
+                  </ul>
                   <Link
-                    href="/buy"
-                    className="flex-1 text-center px-6 py-3 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition"
+                    href="/find"
+                    className="w-full px-4 py-2 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition text-center text-sm"
                   >
-                    Buy →
+                    Browse →
                   </Link>
+                </div>
+              </div>
+
+              {/* Food Card */}
+              <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="text-5xl mb-4">🍽️</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Food Guide</h3>
+                  <p className="text-gray-600 mb-4 text-sm flex-1">
+                    Discover authentic African restaurants recommended by fellow students with real reviews.
+                  </p>
+                  <ul className="space-y-2 mb-6 text-xs">
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-orange-600 font-bold">✓</span> Peer reviews
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-orange-600 font-bold">✓</span> Authentic cuisine
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-orange-600 font-bold">✓</span> Student favorites
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-orange-600 font-bold">✓</span> Price range shown
+                    </li>
+                  </ul>
                   <Link
-                    href="/sell"
-                    className="flex-1 text-center px-6 py-3 border-2 border-green-600 text-green-600 font-bold rounded-lg hover:bg-green-50 transition"
+                    href="/food"
+                    className="w-full px-4 py-2 bg-orange-600 text-white font-bold rounded-lg hover:bg-orange-700 transition text-center text-sm"
                   >
-                    Sell →
+                    Explore →
                   </Link>
+                </div>
+              </div>
+
+              {/* Opportunities Card */}
+              <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="text-5xl mb-4">📚</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Opportunities</h3>
+                  <p className="text-gray-600 mb-4 text-sm flex-1">
+                    Discover internships, scholarships, events, and career opportunities from organizations and students.
+                  </p>
+                  <ul className="space-y-2 mb-6 text-xs">
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-purple-600 font-bold">✓</span> Internships & jobs
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-purple-600 font-bold">✓</span> Scholarships
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-purple-600 font-bold">✓</span> Events & workshops
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-purple-600 font-bold">✓</span> Post your own
+                    </li>
+                  </ul>
+                  <div className="flex gap-2">
+                    <Link
+                      href="/opportunity"
+                      className="flex-1 px-3 py-2 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition text-center text-xs"
+                    >
+                      Browse
+                    </Link>
+                    <Link
+                      href="/addopportunity"
+                      className="flex-1 px-3 py-2 border-2 border-purple-600 text-purple-600 font-bold rounded-lg hover:bg-purple-50 transition text-center text-xs"
+                    >
+                      Post
+                    </Link>
+                  </div>
+                </div>
+              </div>
+
+              {/* Marketplace Card */}
+              <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="text-5xl mb-4">🛒</div>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Marketplace</h3>
+                  <p className="text-gray-600 mb-4 text-sm flex-1">
+                    Quickly sell items you no longer need to fellow students at student-friendly prices.
+                  </p>
+                  <ul className="space-y-2 mb-6 text-xs">
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-green-600 font-bold">✓</span> Fast listings
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-green-600 font-bold">✓</span> Trusted community
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-green-600 font-bold">✓</span> Easy transactions
+                    </li>
+                    <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-green-600 font-bold">✓</span> Support peers
+                    </li>
+                  </ul>
+                  <div className="flex gap-2">
+                    <Link
+                      href="/buy"
+                      className="flex-1 px-3 py-2 bg-green-600 text-white font-bold rounded-lg hover:bg-green-700 transition text-center text-xs"
+                    >
+                      Buy
+                    </Link>
+                    <Link
+                      href="/sell"
+                      className="flex-1 px-3 py-2 border-2 border-green-600 text-green-600 font-bold rounded-lg hover:bg-green-50 transition text-center text-xs"
+                    >
+                      Sell
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
@@ -211,6 +249,7 @@ export default function HomePage() {
               { icon: '🌍', title: 'Community', desc: 'Connect with international students and support each other' },
               { icon: '⚡', title: 'Fast & Reliable', desc: 'Quick responses and same-day availability' },
               { icon: '🔒', title: 'Secure', desc: 'Your data is protected with industry-standard security' },
+              { icon: '📚', title: 'Share Opportunities', desc: 'Post and discover career & academic opportunities' },
             ].map((feature, idx) => (
               <div
                 key={idx}
@@ -262,7 +301,7 @@ export default function HomePage() {
               { stat: '5,000+', label: 'Active Students' },
               { stat: '1,200+', label: 'Verified Houses' },
               { stat: '200+', label: 'Restaurants' },
-              { stat: '10,000+', label: 'Marketplace Items' },
+              { stat: '500+', label: 'Opportunities' },
             ].map((item, idx) => (
               <div key={idx}>
                 <div className="text-5xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent mb-2">
@@ -295,13 +334,14 @@ export default function HomePage() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             <div>
               <h4 className="text-white font-bold text-lg mb-4">StudentNest</h4>
-              <p className="text-sm">Your complete student platform for housing, food, and community.</p>
+              <p className="text-sm">Your complete student platform for housing, food, opportunities, and community.</p>
             </div>
             <div>
               <h4 className="text-white font-bold mb-4">Services</h4>
               <ul className="space-y-2 text-sm">
                 <li><Link href="/find" className="hover:text-white transition">🏠 Find Housing</Link></li>
                 <li><Link href="/food" className="hover:text-white transition">🍽️ Restaurant Guide</Link></li>
+                <li><Link href="/opportunity" className="hover:text-white transition">📚 Opportunities</Link></li>
                 <li><Link href="/buy" className="hover:text-white transition">🛒 Marketplace</Link></li>
               </ul>
             </div>

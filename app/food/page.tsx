@@ -117,8 +117,8 @@ export default function FoodPage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Search Bar */}
-      <div className="bg-white shadow-sm border-b py-4 px-6">
-        <div className="max-w-7xl mx-auto flex gap-3 items-center">
+      <div className="max-w-7xl mx-auto bg-white shadow-sm border-b py-4 px-6">
+        <div className=" flex gap-3 items-center">
           <input
             type="text"
             placeholder="Search restaurants by name or cuisine..."

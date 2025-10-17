@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 declare global {
   interface Window {
@@ -15,6 +16,7 @@ declare global {
 }
 
 export default function Header() {
+  const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [translateMenuOpen, setTranslateMenuOpen] = useState(false);
   const [translateLoaded, setTranslateLoaded] = useState(false);
@@ -87,33 +89,58 @@ export default function Header() {
     }
   };
 
+  const isActive = (path: string) => {
+    return pathname.startsWith(path);
+  };
+
+  const getLinkClass = (path: string) => {
+    const baseClass = `flex items-center gap-1 transition font-medium text-sm`;
+    const activeClass = isActive(path)
+      ? isScrolled
+        ? 'text-yellow-200'
+        : 'text-indigo-600'
+      : isScrolled
+      ? 'text-white hover:text-yellow-200'
+      : 'text-gray-700 hover:text-indigo-600';
+    
+    return `${baseClass} ${activeClass}`;
+  };
+
+  const getMobileLink = (path: string) => {
+    const baseClass = `block px-4 py-2 rounded-lg transition font-medium text-sm`;
+    const activeClass = isActive(path)
+      ? isScrolled
+        ? 'bg-indigo-400 text-white'
+        : 'bg-indigo-100 text-indigo-600'
+      : isScrolled
+      ? 'text-white hover:bg-indigo-400'
+      : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600';
+    
+    return `${baseClass} ${activeClass}`;
+  };
+
   return (
     <>
-      <nav className={`sticky top-0 z-100 shadow-lg transition-colors duration-300 ${
+      <nav className={`sticky top-0 z-50 shadow-lg transition-colors duration-300 ${
         isScrolled
           ? 'bg-gradient-to-r from-indigo-600 to-purple-600'
           : 'bg-white'
       }`}>
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className={`text-3xl font-bold transition-colors duration-300 ${
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex justify-between items-center">
+          <Link href="/" className={`text-xl sm:text-3xl font-bold transition-colors duration-300 whitespace-nowrap ${
             isScrolled ? 'text-white' : 'bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent'
           }`}>
             StudentNest
           </Link>
           
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex gap-8 items-center">
-            <li><Link href="/find" className={`flex items-center gap-2 transition font-medium ${
-              isScrolled ? 'text-white hover:text-yellow-200' : 'text-gray-700 hover:text-indigo-600'
-            }`}><span className={isScrolled ? 'text-white' : 'text-gray-700'}>🏠</span> Housing</Link></li>
-            <li><Link href="/food" className={`flex items-center gap-2 transition font-medium ${
-              isScrolled ? 'text-white hover:text-yellow-200' : 'text-gray-700 hover:text-indigo-600'
-            }`}><span className={isScrolled ? 'text-white' : 'text-orange-600'}>🍽️</span> Food</Link></li>
-            <li><Link href="/buy" className={`flex items-center gap-2 transition font-medium ${
-              isScrolled ? 'text-white hover:text-yellow-200' : 'text-gray-700 hover:text-indigo-600'
-            }`}><span className={isScrolled ? 'text-white' : 'text-gray-700'}>🛒</span> Marketplace</Link></li>
+          <ul className="hidden lg:flex gap-3 xl:gap-8 items-center">
+            <li><Link href="/find" className={getLinkClass('/find')}><span className="text-base sm:text-lg">{isScrolled ? '🏠' : '🏠'}</span> <span className="hidden xl:inline">Housing</span></Link></li>
+            <li><Link href="/food" className={getLinkClass('/food')}><span className="text-base sm:text-lg">🍽️</span> <span className="hidden xl:inline">Food</span></Link></li>
+            <li><Link href="/buy" className={getLinkClass('/buy')}><span className="text-base sm:text-lg">🛒</span> <span className="hidden xl:inline">Marketplace</span></Link></li>
+            <li><Link href="/opportunity" className={getLinkClass('/opportunity')}><span className="text-base sm:text-lg">📚</span> <span className="hidden xl:inline">Opportunities</span></Link></li>
 
-            <li><Link href="/auth/login" className={`px-4 py-2 rounded-lg font-semibold transition ${
+            <li><Link href="/auth/login" className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition text-sm ${
               isScrolled 
                 ? 'text-white border-2 border-white hover:bg-white hover:text-indigo-600'
                 : 'text-indigo-600 border-2 border-indigo-600 hover:bg-indigo-600 hover:text-white'
@@ -123,60 +150,55 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className={`md:hidden flex items-center gap-2 px-4 py-2 rounded-lg font-semibold transition ${
+            className={`lg:hidden flex items-center gap-2 px-3 py-2 rounded-lg font-semibold transition text-sm ${
               isScrolled
                 ? 'bg-white text-indigo-600'
                 : 'bg-indigo-600 text-white'
             }`}
           >
-            {mobileMenuOpen ? '✕' : '☰'} Menu
+            {mobileMenuOpen ? '✕' : '☰'} <span className="hidden sm:inline">Menu</span>
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className={`md:hidden border-t shadow-lg ${
+          <div className={`lg:hidden border-t shadow-lg ${
             isScrolled ? 'bg-indigo-500 border-indigo-400' : 'bg-gray-50 border-gray-200'
           }`}>
-            <div className="max-w-7xl mx-auto px-6 py-4 space-y-3">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 space-y-2">
               <Link
                 href="/find"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-2 rounded-lg transition font-medium ${
-                  isScrolled
-                    ? 'text-white hover:bg-indigo-400'
-                    : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600'
-                }`}
+                className={getMobileLink('/find')}
               >
-                <span className={isScrolled ? 'text-white' : 'text-gray-700'}>🏠</span> Housing
+                <span className="text-base">{isScrolled ? '🏠' : '🏠'}</span> Housing
               </Link>
               <Link
                 href="/food"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-2 rounded-lg transition font-medium ${
-                  isScrolled
-                    ? 'text-white hover:bg-indigo-400'
-                    : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600'
-                }`}
+                className={getMobileLink('/food')}
               >
-                <span className={isScrolled ? 'text-white' : 'text-orange-600'}>🍽️</span> Food
+                <span className="text-base">🍽️</span> Food
               </Link>
               <Link
                 href="/buy"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-2 rounded-lg transition font-medium ${
-                  isScrolled
-                    ? 'text-white hover:bg-indigo-400'
-                    : 'text-gray-700 hover:bg-indigo-50 hover:text-indigo-600'
-                }`}
+                className={getMobileLink('/buy')}
               >
-                <span className={isScrolled ? 'text-white' : 'text-gray-700'}>🛒</span> Marketplace
+                <span className="text-base">🛒</span> Marketplace
+              </Link>
+              <Link
+                href="/opportunity"
+                onClick={() => setMobileMenuOpen(false)}
+                className={getMobileLink('/opportunity')}
+              >
+                <span className="text-base">📚</span> Opportunities
               </Link>
 
               <Link
                 href="/auth/login"
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-2 border-2 rounded-lg transition font-semibold text-center ${
+                className={`block px-4 py-2 border-2 rounded-lg transition font-semibold text-center text-sm ${
                   isScrolled
                     ? 'text-indigo-600 bg-white border-white hover:bg-gray-100'
                     : 'text-indigo-600 bg-white border-indigo-600 hover:bg-indigo-50'
