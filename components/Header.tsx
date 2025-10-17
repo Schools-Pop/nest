@@ -90,7 +90,7 @@ export default function Header() {
   };
 
   const isActive = (path: string) => {
-    return pathname.startsWith(path);
+    return pathname?.startsWith(path) ?? false;
   };
 
   const getLinkClass = (path: string) => {
