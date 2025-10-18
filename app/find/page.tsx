@@ -163,7 +163,7 @@ export default function FindPage() {
                         See Roommate Profiles →
                       </Link>
                       <Link
-                        href="/post-roommate"
+                        href="/addroommate"
                         className="px-6 py-2 border-2 border-blue-600 text-blue-600 font-semibold rounded-lg hover:bg-blue-50 transition text-center"
                       >
                         Post Your Profile
