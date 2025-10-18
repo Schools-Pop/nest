@@ -57,7 +57,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-indigo-100 max-w-2xl mx-auto mb-8">
-              Find your perfect home, discover trusted restaurants, explore opportunities, and quickly sell items you no longer need.
+              Stop juggling countless apps and groups — find housing, roommates, opportunities, and quickly sell items you nolonger need, all in one trusted student platform.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
               <button
@@ -101,12 +101,12 @@ export default function HomePage() {
               Everything You Need
             </h2>
             <p className="text-xl text-gray-600">
-              Four essential services designed for international students in Rwanda
+              Three essential services designed for international students in Rwanda
             </p>
           </div>
 
           <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
               {/* Housing Card */}
               <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1">
@@ -139,7 +139,7 @@ export default function HomePage() {
               </div>
 
               {/* Food Card */}
-              <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
+              {/* <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1">
                   <div className="text-5xl mb-4">🍽️</div>
                   <h3 className="text-2xl font-bold text-gray-900 mb-2">Food Guide</h3>
@@ -167,7 +167,7 @@ export default function HomePage() {
                     Explore →
                   </Link>
                 </div>
-              </div>
+              </div> */}
 
               {/* Opportunities Card */}
               <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
@@ -492,7 +492,7 @@ export default function HomePage() {
             </div>
           </div>
           <div className="border-t border-gray-700 pt-8 text-center text-sm">
-            <p>&copy; 2024 StudentNest. Simplifying student life in Rwanda.</p>
+            <p>&copy; 2025 StudentNest. Simplifying student life in at CMU Africa.</p>
           </div>
         </div>
       </footer>
