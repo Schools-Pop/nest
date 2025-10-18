@@ -57,7 +57,7 @@ export default function HomePage() {
               </span>
             </h1>
             <p className="text-xl text-indigo-100 max-w-2xl mx-auto mb-8">
-              Stop juggling countless apps and groups — find housing, roommates, opportunities, and quickly sell items you nolonger need, all in one trusted student platform.
+              Stop juggling countless apps and groups — find housing, roommates, opportunities, and quiclkly sell items you nolonger need, all in one trusted student platform.
             </p>
             <div className="flex gap-4 flex-wrap justify-center">
               <button
@@ -101,7 +101,7 @@ export default function HomePage() {
               Everything You Need
             </h2>
             <p className="text-xl text-gray-600">
-              Three essential services designed for international students in Rwanda
+              Three essential services designed for international students at CMU Africa
             </p>
           </div>
 
@@ -111,7 +111,7 @@ export default function HomePage() {
               <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1">
                   <div className="text-5xl mb-4">🏠</div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2"> Housing</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Smart Housing</h3>
                   <p className="text-gray-600 mb-4 text-sm flex-1">
                     Find verified student-friendly accommodations with real-time distance to campus and transport costs.
                   </p>
@@ -119,15 +119,16 @@ export default function HomePage() {
                     <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-indigo-600 font-bold">✓</span> Distance to campus
                     </li>
+                     <li className="flex items-center gap-2 text-gray-700">
+                      <span className="text-indigo-600 font-bold">✓</span> Distance to bus stop
+                    </li>
                     <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-indigo-600 font-bold">✓</span> Transport costs
                     </li>
                     <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-indigo-600 font-bold">✓</span> Landlord contact
                     </li>
-                    {/* <li className="flex items-center gap-2 text-gray-700">
-                      <span className="text-indigo-600 font-bold">✓</span> Pre-arrival booking
-                    </li> */}
+                   
                   </ul>
                   <Link
                     href="/find"
@@ -218,10 +219,10 @@ export default function HomePage() {
                   </p>
                   <ul className="space-y-2 mb-6 text-xs">
                     <li className="flex items-center gap-2 text-gray-700">
-                      <span className="text-green-600 font-bold">✓</span> Fast listings
+                      <span className="text-green-600 font-bold">✓</span> List an item for sale
                     </li>
                     <li className="flex items-center gap-2 text-gray-700">
-                      <span className="text-green-600 font-bold">✓</span> Trusted community
+                      <span className="text-green-600 font-bold">✓</span> Buy an Item
                     </li>
                     {/* <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-green-600 font-bold">✓</span> Easy transactions
