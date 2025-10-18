@@ -196,8 +196,8 @@ export default function RoommatesPage() {
     <div className="min-h-screen bg-gray-50">
 
       {/* Header */}
-      <div className="bg-white shadow-sm border-b py-4 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+      <div className="max-w-7xl mx-auto  bg-white shadow-sm border-b py-4 px-6">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Find a Room</h1>
             <p className="text-sm sm:text-base text-gray-600">Browse available rooms from house owners</p>
