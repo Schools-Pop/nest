@@ -111,7 +111,7 @@ export default function HomePage() {
               <div className="group bg-white rounded-2xl shadow-md hover:shadow-xl transition-all overflow-hidden flex flex-col h-full">
                 <div className="p-6 flex flex-col flex-1">
                   <div className="text-5xl mb-4">🏠</div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">Smart Housing</h3>
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2"> Housing</h3>
                   <p className="text-gray-600 mb-4 text-sm flex-1">
                     Find verified student-friendly accommodations with real-time distance to campus and transport costs.
                   </p>
@@ -125,9 +125,9 @@ export default function HomePage() {
                     <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-indigo-600 font-bold">✓</span> Landlord contact
                     </li>
-                    <li className="flex items-center gap-2 text-gray-700">
+                    {/* <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-indigo-600 font-bold">✓</span> Pre-arrival booking
-                    </li>
+                    </li> */}
                   </ul>
                   <Link
                     href="/find"
@@ -223,9 +223,9 @@ export default function HomePage() {
                     <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-green-600 font-bold">✓</span> Trusted community
                     </li>
-                    <li className="flex items-center gap-2 text-gray-700">
+                    {/* <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-green-600 font-bold">✓</span> Easy transactions
-                    </li>
+                    </li> */}
                     <li className="flex items-center gap-2 text-gray-700">
                       <span className="text-green-600 font-bold">✓</span> Support peers
                     </li>
