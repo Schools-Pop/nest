@@ -73,6 +73,22 @@ export default function HomePage() {
                 Get Started
               </Link>
             </div>
+
+            {/* AI Assistant Quick Access */}
+            <div className="mt-12 max-w-2xl mx-auto">
+              <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition cursor-pointer group" onClick={() => router.push('/ask')}>
+                <div className="flex items-center justify-between">
+                  <div className="text-left flex-1">
+                    <p className="text-sm font-semibold text-indigo-100 mb-1">Need Help?</p>
+                    <p className="text-lg text-white font-bold group-hover:text-yellow-300 transition">
+                      🤖 Ask our AI Assistant anything about student life
+                    </p>
+                  </div>
+                  <div className="text-3xl ml-4">✨</div>
+                </div>
+                <p className="text-xs text-indigo-100 mt-3">Get instant answers about courses, housing, events, and more</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -85,7 +101,7 @@ export default function HomePage() {
               Everything You Need
             </h2>
             <p className="text-xl text-gray-600">
-              Five essential services designed for international students in Rwanda
+              Four essential services designed for international students in Rwanda
             </p>
           </div>
 
@@ -280,29 +296,100 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Student Resource Center Section */}
+      <section className="py-24 px-6 bg-gradient-to-br from-purple-50 to-indigo-50">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <h2 className="text-5xl font-bold text-gray-900 mb-4">
+              Get Instant Answers
+            </h2>
+            <p className="text-xl text-gray-600">
+              AI-powered resource center for student questions and support
+            </p>
+          </div>
+
+          <div className="flex justify-center">
+            <div className="w-full max-w-3xl">
+              <div className="bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all">
+                <div className="p-8 md:p-12">
+                  <div className="text-center mb-8">
+                    <div className="text-7xl mb-6">🤖</div>
+                    <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Student Resource Center</h3>
+                    <p className="text-gray-700 text-lg mb-8">
+                      Ask questions about courses, services, housing, and anything else about student life. Get instant answers powered by AI from our knowledge base of student resources and FAQs.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+                    <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-4 rounded-xl">
+                      <p className="text-2xl mb-2">🤖</p>
+                      <h4 className="font-bold text-gray-900 mb-1">AI Assistant</h4>
+                      <p className="text-sm text-gray-600">Instant responses to your questions</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-4 rounded-xl">
+                      <p className="text-2xl mb-2">📚</p>
+                      <h4 className="font-bold text-gray-900 mb-1">Rich Knowledge Base</h4>
+                      <p className="text-sm text-gray-600">Comprehensive info on all services</p>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-50 to-indigo-50 p-4 rounded-xl">
+                      <p className="text-2xl mb-2">⚡</p>
+                      <h4 className="font-bold text-gray-900 mb-1">24/7 Available</h4>
+                      <p className="text-sm text-gray-600">Always ready to help anytime</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Link
+                      href="/ask"
+                      className="flex-1 px-6 py-3 bg-indigo-600 text-white font-bold rounded-lg hover:bg-indigo-700 transition text-center text-base"
+                    >
+                      Ask a Question →
+                    </Link>
+                    <Link
+                      href="/ask"
+                      className="flex-1 px-6 py-3 border-2 border-indigo-600 text-indigo-600 font-bold rounded-lg hover:bg-indigo-50 transition text-center text-base"
+                    >
+                      Browse Resources
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Features Section */}
       <section className="py-24 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-5xl font-bold text-center mb-16 text-gray-900">
             Why Choose StudentNest?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { icon: '✅', title: 'Verified & Safe', desc: 'All listings verified and student-friendly with genuine reviews' },
-              { icon: '📱', title: 'Easy to Use', desc: 'Intuitive platform designed specifically for students' },
-              { icon: '💰', title: 'Affordable', desc: 'Budget-friendly options from landlords and sellers' },
-              { icon: '🌍', title: 'Community', desc: 'Connect with international students and support each other' },
-              { icon: '⚡', title: 'Fast & Reliable', desc: 'Quick responses and same-day availability' },
-              { icon: '🔒', title: 'Secure', desc: 'Your data is protected with industry-standard security' },
-              { icon: '📚', title: 'Share Opportunities', desc: 'Post and discover career & academic opportunities' },
+              {
+                icon: '📍',
+                title: 'Everything in One Place',
+                desc: 'Access housing, food, opportunities, roommates, and student resources all from a single platform. No need to search across multiple apps and websites.',
+              },
+              {
+                icon: '⚡',
+                title: 'Quick & Fast Information',
+                desc: 'Get instant answers with our AI-powered resource center. Find housing listings in seconds, discover restaurants instantly, and access opportunities as soon as they\'re posted.',
+              },
+              {
+                icon: '🤝',
+                title: 'Community Sharing',
+                desc: 'Share recommendations, post opportunities, and connect with thousands of fellow students. Build a supportive community where everyone helps each other succeed.',
+              },
             ].map((feature, idx) => (
               <div
                 key={idx}
-                className="p-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl hover:shadow-lg transition"
+                className="p-8 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl hover:shadow-lg transition"
               >
-                <div className="text-4xl mb-3">{feature.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{feature.title}</h3>
-                <p className="text-gray-600">{feature.desc}</p>
+                <div className="text-5xl mb-4">{feature.icon}</div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-3">{feature.title}</h3>
+                <p className="text-gray-600 text-lg leading-relaxed">{feature.desc}</p>
               </div>
             ))}
           </div>
@@ -317,9 +404,9 @@ export default function HomePage() {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { num: 1, title: 'Sign Up', desc: 'Create your free account in minutes' },
-              { num: 2, title: 'Explore', desc: 'Browse housing, restaurants, and marketplace' },
-              { num: 3, title: 'Connect', desc: 'Message landlords, share reviews, or buy/sell items' },
+              { num: 1, title: 'Sign Up', desc: 'Create your free account in minutes with your email' },
+              { num: 2, title: 'Explore', desc: 'Browse housing, restaurants, opportunities, roommates, and student resources' },
+              { num: 3, title: 'Connect & Share', desc: 'Post opportunities, share recommendations, and build community with fellow students' },
             ].map((step) => (
               <div key={step.num} className="relative">
                 <div className="bg-white p-8 rounded-xl shadow-lg text-center">
