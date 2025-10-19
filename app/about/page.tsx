@@ -10,6 +10,7 @@ export default function AboutPage() {
       name: 'Emmilly Immaculate Namuganga',
       role: 'Founder & Technical Lead',
       image: '👩‍💻',
+      country: '🇺🇬',
       bio: 'Full-stack developer with 5+ years of experience in building scalable applications. Specializes in Next.js, React, and cloud infrastructure.',
       expertise: ['Full-Stack Development', 'System Architecture', 'Cloud Infrastructure', 'Database Design'],
       email: 'enamugan@andrew.cmu.edu',
@@ -19,6 +20,7 @@ export default function AboutPage() {
       name: 'Bellah Ellam',
       role: 'Founder & Business Lead',
       image: '👨‍💼',
+      country: '🇰🇪',
       bio: 'Business strategist and finance expert with experience in startup scaling, financial planning, and market expansion. Focused on sustainable growth strategy and partnerships across Africa.',
       expertise: ['Business Strategy', 'Financial Planning', 'Market Expansion', 'Partnerships', 'Growth Strategy'],
       email: 'bellam@andrew.cmu.edu',
@@ -28,6 +30,7 @@ export default function AboutPage() {
       name: 'Odunayo Wuraola Akinlade',
       role: 'Founder & Product Lead',
       image: '👩‍💼',
+      country: '🇳🇬',
       bio: 'Product and user experience specialist with expertise in user experience and community building. Ensures StudentNest serves students effectively.',
       expertise: ['Product Management', 'Community Building', 'Operations', 'User Experience'],
       email: 'oakinlad@andrew.cmu.edu',
@@ -108,8 +111,9 @@ export default function AboutPage() {
                 className="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all"
               >
                 {/* Image Section */}
-                <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-12 flex items-center justify-center">
+                <div className="bg-gradient-to-r from-indigo-500 to-purple-500 p-12 flex items-center justify-center relative">
                   <div className="text-8xl">{member.image}</div>
+                  <div className="absolute top-4 right-4 text-4xl">{member.country}</div>
                 </div>
 
                 {/* Content Section */}
