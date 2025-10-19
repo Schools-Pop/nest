@@ -26,9 +26,9 @@ export default function AboutPage() {
     {
       id: 3,
       name: 'Odunayo Wuraola Akinlade',
-      role: 'Founder & Operations Lead',
+      role: 'Founder & Product Lead',
       image: '👩‍💼',
-      bio: 'Operations and product srpecialist with expertise in user experience and community building. Ensures StudentNest serves students effectively.',
+      bio: 'Product and user experience specialist with expertise in user experience and community building. Ensures StudentNest serves students effectively.',
       expertise: ['Product Management', 'Community Building', 'Operations', 'User Experience'],
       email: 'oakinlad@andrew.cmu.edu',
     },

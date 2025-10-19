@@ -37,6 +37,8 @@ interface Listing {
   rules: string[];
   leaseTerms: string;
   availableFrom: string;
+  securityFee: number;
+  advanceMonths: number;
 }
 
 const DUMMY_LISTINGS: { [key: string]: Listing } = {
@@ -63,6 +65,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['No loud noise after 10 PM', 'No smoking inside', 'Visitors allowed until 9 PM'],
     leaseTerms: '12 months minimum',
     availableFrom: 'January 15, 2024',
+    securityFee: 100000,
+    advanceMonths: 1,
   },
   '2': {
     id: '2',
@@ -87,6 +91,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Keep room clean', 'Contribute to cleaning shared spaces', 'Quiet hours 10 PM - 8 AM'],
     leaseTerms: '6-12 months',
     availableFrom: 'Immediately',
+    securityFee: 95000,
+    advanceMonths: 1,
   },
   '3': {
     id: '3',
@@ -110,6 +116,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Keep room clean', 'No loud parties', 'Quiet hours 11 PM - 7 AM'],
     leaseTerms: '3-12 months',
     availableFrom: 'February 1, 2024',
+    securityFee: 85000,
+    advanceMonths: 1,
   },
   '4': {
     id: '4',
@@ -134,6 +142,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['No loud parties', 'No smoking', 'Respect quiet hours (10 PM - 8 AM)', 'Visitors welcome'],
     leaseTerms: '6-12 months flexible',
     availableFrom: 'Immediately',
+    securityFee: 200000,
+    advanceMonths: 1,
   },
   '5': {
     id: '5',
@@ -158,6 +168,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Keep room clean', 'Contribute to cleaning shared spaces', 'Quiet hours 10 PM - 8 AM', 'Respect housemates'],
     leaseTerms: '6-12 months',
     availableFrom: 'Immediately',
+    securityFee: 150000,
+    advanceMonths: 1,
   },
   '6': {
     id: '6',
@@ -182,6 +194,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['No smoking indoors', 'Quiet hours 10 PM - 8 AM', 'Keep apartment clean'],
     leaseTerms: '6-12 months',
     availableFrom: 'January 1, 2024',
+    securityFee: 180000,
+    advanceMonths: 1,
   },
   '7': {
     id: '7',
@@ -206,6 +220,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Respect quiet hours', 'No loud music', 'Keep apartment pristine'],
     leaseTerms: '12 months',
     availableFrom: 'January 1, 2024',
+    securityFee: 280000,
+    advanceMonths: 1,
   },
   '8': {
     id: '8',
@@ -230,6 +246,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['No loud parties', 'Respect quiet hours (10 PM - 8 AM)', 'Keep common areas clean', 'Visitors allowed'],
     leaseTerms: '12 months',
     availableFrom: 'Immediately',
+    securityFee: 350000,
+    advanceMonths: 1,
   },
   '9': {
     id: '9',
@@ -254,6 +272,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Respect quiet hours', 'No loud music', 'Keep grounds clean', 'Visitors welcome'],
     leaseTerms: '12 months',
     availableFrom: 'January 1, 2024',
+    securityFee: 320000,
+    advanceMonths: 1,
   },
   '10': {
     id: '10',
@@ -277,6 +297,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Keep room clean', 'Contribute to cleaning shared spaces', 'Quiet hours 10 PM - 8 AM'],
     leaseTerms: '3-12 months',
     availableFrom: 'February 1, 2024',
+    securityFee: 100000,
+    advanceMonths: 1,
   },
   '11': {
     id: '11',
@@ -300,6 +322,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Keep room clean', 'No loud noise', 'Quiet hours 11 PM - 7 AM'],
     leaseTerms: '3-6 months',
     availableFrom: 'Immediately',
+    securityFee: 110000,
+    advanceMonths: 1,
   },
   '12': {
     id: '12',
@@ -323,6 +347,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Keep room clean', 'No loud music', 'Quiet hours 11 PM - 7 AM'],
     leaseTerms: '3 months minimum',
     availableFrom: 'February 2024',
+    securityFee: 95000,
+    advanceMonths: 1,
   },
   '13': {
     id: '13',
@@ -347,6 +373,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Quiet hours 10 PM - 8 AM', 'No smoking', 'Keep apartment clean'],
     leaseTerms: '6-12 months',
     availableFrom: 'January 15, 2024',
+    securityFee: 160000,
+    advanceMonths: 1,
   },
   '14': {
     id: '14',
@@ -370,6 +398,8 @@ const DUMMY_LISTINGS: { [key: string]: Listing } = {
     rules: ['Quiet hours 10 PM - 8 AM', 'No smoking', 'Keep apartment clean'],
     leaseTerms: '6-12 months',
     availableFrom: 'February 1, 2024',
+    securityFee: 140000,
+    advanceMonths: 1,
   },
 };
 
@@ -504,7 +534,7 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">About This Listing</h3>
                 <p className="text-gray-700 mb-6 leading-relaxed text-sm sm:text-base">{listing.description}</p>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-3">Lease Terms</h4>
                     <p className="text-gray-700 text-sm">{listing.leaseTerms}</p>
@@ -512,6 +542,19 @@ export default function ListingDetailPage({ params }: { params: { id: string } }
                   <div>
                     <h4 className="font-semibold text-gray-900 mb-3">Available From</h4>
                     <p className="text-gray-700 text-sm">{listing.availableFrom}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 p-4 sm:p-6 bg-indigo-50 rounded-lg">
+                  <div className="border-l-4 border-indigo-600 pl-4">
+                    <h4 className="font-semibold text-gray-900 mb-2">Security Fee</h4>
+                    <p className="text-2xl font-bold text-indigo-600">{listing.securityFee.toLocaleString()} RWF</p>
+                    <p className="text-sm text-gray-600 mt-1">Refundable deposit</p>
+                  </div>
+                  <div className="border-l-4 border-indigo-600 pl-4">
+                    <h4 className="font-semibold text-gray-900 mb-2">Advance Payment Required</h4>
+                    <p className="text-2xl font-bold text-indigo-600">{listing.advanceMonths} {listing.advanceMonths === 1 ? 'Month' : 'Months'}</p>
+                    <p className="text-sm text-gray-600 mt-1">Payable upfront</p>
                   </div>
                 </div>
               </div>
