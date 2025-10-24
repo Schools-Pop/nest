@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import { createOpportunity } from '@/lib/supabase/mutations';
 
 type OpportunityCategory = 'internship' | 'event' | 'scholarship';
 
@@ -47,6 +48,8 @@ export default function AddOpportunityPage() {
   });
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleCategorySelect = (categoryId: OpportunityCategory) => {
     setSelectedCategory(categoryId);
@@ -79,22 +82,67 @@ export default function AddOpportunityPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
+    setSuccess(false);
 
-    // Filter out empty strings from arrays
-    const cleanedData = {
-      ...formData,
-      eligibility: formData.eligibility.filter(e => e.trim()),
-      criteria: formData.criteria.filter(c => c.trim()),
-      requirements: formData.requirements.filter(r => r.trim()),
-    };
+    try {
+      // Validate required fields
+      if (!formData.title || !formData.description || !formData.fullDescription || !formData.location || !formData.deadline || !formData.date) {
+        throw new Error('Please fill in all required fields');
+      }
 
-    // Here you would typically send the data to your backend
-    console.log('Submitting opportunity:', cleanedData);
+      // Filter out empty strings from arrays
+      const cleanedData = {
+        category: formData.category,
+        title: formData.title,
+        description: formData.description,
+        full_description: formData.fullDescription,
+        deadline: formData.deadline,
+        date: formData.date,
+        location: formData.location,
+        company: formData.company || '',
+        stipend: formData.stipend || '',
+        duration: formData.duration || '',
+        eligibility: formData.eligibility.filter(e => e.trim()).join(', '),
+        criteria: formData.criteria.filter(c => c.trim()).join(', '),
+        requirements: formData.requirements.filter(r => r.trim()).join(', '),
+        application_link: formData.applicationLink || '',
+      };
 
-    setTimeout(() => {
+      // Call Supabase mutation
+      const response = await createOpportunity(cleanedData);
+
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to create opportunity');
+      }
+
+      setSuccess(true);
+
+      // Reset form
+      setFormData({
+        category: '',
+        title: '',
+        description: '',
+        fullDescription: '',
+        deadline: '',
+        date: '',
+        location: '',
+        eligibility: [''],
+        criteria: [''],
+        requirements: [''],
+      });
+      setSelectedCategory('');
+      setCurrentStep(1);
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        router.push('/opportunity?success=true');
+      }, 2000);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
       setLoading(false);
-      router.push('/opportunity');
-    }, 1000);
+    }
   };
 
   const renderCategoryFields = () => {
@@ -212,7 +260,6 @@ export default function AddOpportunityPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* <Header /> */}
 
       {/* Header */}
       <div className="max-w-7xl mx-auto bg-white shadow-sm border-b py-4 px-6">
@@ -232,6 +279,20 @@ export default function AddOpportunityPage() {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-6 py-8">
+        {/* Error Message */}
+        {error && (
+          <div className="bg-red-50 border-l-4 border-red-600 p-4 rounded mb-6">
+            <p className="text-red-700 font-semibold">{error}</p>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {success && (
+          <div className="bg-green-50 border-l-4 border-green-600 p-4 rounded mb-6">
+            <p className="text-green-700 font-semibold">✓ Opportunity posted successfully! Redirecting...</p>
+          </div>
+        )}
+
         {/* Step 1: Category Selection */}
         {currentStep === 1 && (
           <div>
@@ -274,7 +335,8 @@ export default function AddOpportunityPage() {
                     setCurrentStep(1);
                     setSelectedCategory('');
                   }}
-                  className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-semibold text-sm"
+                  disabled={loading || success}
+                  className="flex items-center gap-2 text-indigo-600 hover:text-indigo-700 font-semibold text-sm disabled:opacity-50"
                 >
                   ← Change category
                 </button>
@@ -502,16 +564,17 @@ export default function AddOpportunityPage() {
                     setCurrentStep(1);
                     setSelectedCategory('');
                   }}
-                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition"
+                  disabled={loading || success}
+                  className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition disabled:opacity-50"
                 >
                   Back
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
+                  disabled={loading || success}
                   className="flex-1 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition disabled:bg-gray-400"
                 >
-                  {loading ? 'Publishing...' : 'Publish Opportunity'}
+                  {loading ? 'Publishing...' : success ? '✓ Published' : 'Publish Opportunity'}
                 </button>
               </div>
             </div>

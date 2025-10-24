@@ -138,8 +138,8 @@ export default function Header() {
             <li><Link href="/find" className={getLinkClass('/find')}><span className="text-base sm:text-lg">🏠</span> <span className="hidden xl:inline">Housing</span></Link></li>
             <li><Link href="/buy" className={getLinkClass('/buy')}><span className="text-base sm:text-lg">🛒</span> <span className="hidden xl:inline">Marketplace</span></Link></li>
             <li><Link href="/opportunity" className={getLinkClass('/opportunity')}><span className="text-base sm:text-lg">📚</span> <span className="hidden xl:inline">Opportunities</span></Link></li>
-            <li><Link href="/ask" className={getLinkClass('/ask')}><span className="text-base sm:text-lg">🤖</span> <span className="hidden xl:inline">Wiki</span></Link></li>
-            <li><Link href="/about" className={getLinkClass('/about')}><span className="text-base sm:text-lg">ℹ️</span> <span className="hidden xl:inline">About</span></Link></li>
+            {/* <li><Link href="/ask" className={getLinkClass('/ask')}><span className="text-base sm:text-lg">🤖</span> <span className="hidden xl:inline">Wiki</span></Link></li> */}
+            {/* <li><Link href="/about" className={getLinkClass('/about')}><span className="text-base sm:text-lg">ℹ️</span> <span className="hidden xl:inline">About</span></Link></li> */}
 
             <li><Link href="/auth/login" className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition text-sm ${
               isScrolled 
@@ -188,20 +188,20 @@ export default function Header() {
               >
                 <span className="text-base">📚</span> Opportunities
               </Link>
-              <Link
+              {/* <Link
                 href="/ask"
                 onClick={() => setMobileMenuOpen(false)}
                 className={getMobileLink('/ask')}
               >
                 <span className="text-base">🤖</span> Wiki
-              </Link>
-              <Link
+              </Link> */}
+              {/* <Link
                 href="/about"
                 onClick={() => setMobileMenuOpen(false)}
                 className={getMobileLink('/about')}
               >
                 <span className="text-base">ℹ️</span> About
-              </Link>
+              </Link> */}
 
               <Link
                 href="/auth/login"

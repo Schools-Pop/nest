@@ -1,165 +1,101 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import { getItems } from '@/lib/supabase/queries';
 
 interface Item {
   id: string;
   title: string;
-  price: number;
-  image: string;
+  price: string;
+  images: string;
   category: string;
   condition: string;
-  seller: {
-    name: string;
-    avatar: string;
-    rating: number;
-  };
+  seller_name?: string;
+  seller_avatar?: string;
+  seller_rating?: number;
   description: string;
   location: string;
-  postedDate: string;
-  negotiable: boolean;
+  created_at: string;
+  negotiable: string;
+  email: string;
+  phone_number: string;
 }
 
 const CATEGORIES = ['All', 'Furniture', 'Electronics', 'Books', 'Kitchen', 'Clothing', 'Sports', 'Other'];
 
 const CONDITIONS = ['All', 'Like New', 'Good', 'Fair', 'For Parts'];
 
-const DUMMY_ITEMS: Item[] = [
-  {
-    id: '1',
-    title: 'Single Bed Frame - Nearly New',
-    price: 25000,
-    image: '🛏️',
-    category: 'Furniture',
-    condition: 'Like New',
-    seller: { name: 'Sarah M.', avatar: '👩‍🎓', rating: 4.9 },
-    description: 'Wooden single bed frame in excellent condition. Barely used, perfect for dorm room.',
-    location: 'Kigali, Nyamirambo',
-    postedDate: '2 days ago',
-    negotiable: true,
-  },
-  {
-    id: '2',
-    title: 'Laptop Dell Inspiron 15',
-    price: 450000,
-    image: '💻',
-    category: 'Electronics',
-    condition: 'Good',
-    seller: { name: 'John D.', avatar: '👨‍🎓', rating: 4.7 },
-    description: 'Intel Core i5, 8GB RAM, 256GB SSD. Works perfectly, minor keyboard wear.',
-    location: 'Kigali, Gisozi',
-    postedDate: '1 week ago',
-    negotiable: true,
-  },
-  {
-    id: '3',
-    title: 'Introduction to Algorithms - MIT',
-    price: 8000,
-    image: '📚',
-    category: 'Books',
-    condition: 'Good',
-    seller: { name: 'Emma L.', avatar: '👩‍🎓', rating: 5.0 },
-    description: 'Classic computer science textbook. Used for 2 semesters, all pages intact.',
-    location: 'Kigali, Remera',
-    postedDate: '3 days ago',
-    negotiable: false,
-  },
-  {
-    id: '4',
-    title: 'Microwave Oven - LG',
-    price: 35000,
-    image: '🔥',
-    category: 'Kitchen',
-    condition: 'Like New',
-    seller: { name: 'Peter N.', avatar: '👨‍🎓', rating: 4.8 },
-    description: 'Compact microwave oven, perfect for student accommodations. 700W power.',
-    location: 'Kigali, Muhima',
-    postedDate: '5 days ago',
-    negotiable: true,
-  },
-  {
-    id: '5',
-    title: 'Winter Jacket - Barely Worn',
-    price: 15000,
-    image: '🧥',
-    category: 'Clothing',
-    condition: 'Like New',
-    seller: { name: 'Lisa K.', avatar: '👩‍🎓', rating: 4.6 },
-    description: 'Warm winter jacket, only worn once. Excellent for cold weather.',
-    location: 'Kigali, Kacyiru',
-    postedDate: '1 week ago',
-    negotiable: true,
-  },
-  {
-    id: '6',
-    title: 'Mountain Bike - Trek',
-    price: 180000,
-    image: '🚲',
-    category: 'Sports',
-    condition: 'Good',
-    seller: { name: 'Alex M.', avatar: '👨‍🎓', rating: 4.9 },
-    description: '21-speed mountain bike. Great for campus commute. Some wear on tires.',
-    location: 'Kigali, Kimironko',
-    postedDate: '4 days ago',
-    negotiable: true,
-  },
-  {
-    id: '7',
-    title: 'Study Desk with Lamp',
-    price: 18000,
-    image: '🪑',
-    category: 'Furniture',
-    condition: 'Good',
-    seller: { name: 'Maria T.', avatar: '👩‍🎓', rating: 4.7 },
-    description: 'Wooden study desk with built-in LED lamp. Perfect for studying.',
-    location: 'Kigali, Gisozi',
-    postedDate: '6 days ago',
-    negotiable: false,
-  },
-  {
-    id: '8',
-    title: 'Wireless Earbuds - Sony',
-    price: 45000,
-    image: '🎧',
-    category: 'Electronics',
-    condition: 'Like New',
-    seller: { name: 'David K.', avatar: '👨‍🎓', rating: 5.0 },
-    description: 'Noise-cancelling wireless earbuds with 30-hour battery. Comes with case.',
-    location: 'Kigali, Remera',
-    postedDate: '2 days ago',
-    negotiable: false,
-  },
-];
-
 export default function BuyPage() {
   const router = useRouter();
+  const [items, setItems] = useState<Item[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedCondition, setSelectedCondition] = useState('All');
   const [maxPrice, setMaxPrice] = useState(500000);
   const [searchTerm, setSearchTerm] = useState('');
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
+  // Fetch items from Supabase
+  useEffect(() => {
+    const fetchItems = async () => {
+      try {
+        setLoading(true);
+        const response = await getItems();
+        if (response.success) {
+          setItems(response.data || []);
+        } else {
+          setError(response.error || 'Failed to load items');
+        }
+      } catch (err) {
+        setError('Failed to load items from marketplace');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchItems();
+  }, []);
+
   const filteredItems = useMemo(() => {
-    return DUMMY_ITEMS.filter((item) => {
+    return items.filter((item) => {
       const matchCategory = selectedCategory === 'All' || item.category === selectedCategory;
       const matchCondition = selectedCondition === 'All' || item.condition === selectedCondition;
-      const matchPrice = item.price <= maxPrice;
+      const matchPrice = parseInt(item.price) <= maxPrice;
       const matchSearch = item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
         item.description.toLowerCase().includes(searchTerm.toLowerCase());
 
       return matchCategory && matchCondition && matchPrice && matchSearch;
-    }).sort((a, b) => new Date(b.postedDate).getTime() - new Date(a.postedDate).getTime());
-  }, [selectedCategory, selectedCondition, maxPrice, searchTerm]);
+    }).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  }, [items, selectedCategory, selectedCondition, maxPrice, searchTerm]);
+
+  const getImageEmoji = (images: string) => {
+    // Try to use first image from comma-separated list, default to 📦
+    const imageArray = images?.split(',') || [];
+    return imageArray[0]?.trim() || '📦';
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffTime = Math.abs(now.getTime() - date.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return `${diffDays} days ago`;
+    return date.toLocaleDateString();
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
 
       {/* Search Bar */}
       <div className="max-w-7xl mx-auto bg-white shadow-sm border-b py-4 px-6">
-        <div className=" flex gap-3 items-center">
+        <div className="flex gap-3 items-center">
           <input
             type="text"
             placeholder="Search for items..."
@@ -308,7 +244,23 @@ export default function BuyPage() {
               </p>
             </div>
 
-            {filteredItems.length === 0 ? (
+            {/* Loading State */}
+            {loading && (
+              <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+                <div className="text-3xl mb-4">⏳</div>
+                <p className="text-gray-600">Loading items...</p>
+              </div>
+            )}
+
+            {/* Error State */}
+            {error && !loading && (
+              <div className="bg-red-50 border-l-4 border-red-600 p-4 rounded mb-6">
+                <p className="text-red-700 font-semibold">{error}</p>
+              </div>
+            )}
+
+            {/* No Items Found */}
+            {!loading && filteredItems.length === 0 && !error && (
               <div className="bg-white rounded-lg shadow-sm p-12 text-center">
                 <div className="text-5xl mb-4">🔍</div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-2">No Items Found</h3>
@@ -327,7 +279,10 @@ export default function BuyPage() {
                   Clear All Filters
                 </button>
               </div>
-            ) : (
+            )}
+
+            {/* Items Grid */}
+            {!loading && filteredItems.length > 0 && (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {filteredItems.map((item) => (
                   <div
@@ -337,7 +292,7 @@ export default function BuyPage() {
                   >
                     {/* Item Image */}
                     <div className="w-full h-48 bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center text-6xl">
-                      {item.image}
+                      {getImageEmoji(item.images)}
                     </div>
 
                     {/* Item Info */}
@@ -365,9 +320,9 @@ export default function BuyPage() {
                       {/* Price */}
                       <div className="flex items-center justify-between mb-3">
                         <p className="text-2xl font-bold text-indigo-600">
-                          {(item.price / 1000).toFixed(0)}K RWF
+                          {(parseInt(item.price) / 1000).toFixed(0)}K RWF
                         </p>
-                        {item.negotiable && (
+                        {item.negotiable === 'true' && (
                           <span className="text-xs text-orange-600 font-semibold">
                             Negotiable
                           </span>
@@ -377,28 +332,32 @@ export default function BuyPage() {
                       {/* Location & Posted Date */}
                       <div className="text-xs text-gray-500 mb-3">
                         <p>📍 {item.location}</p>
-                        <p>Posted {item.postedDate}</p>
+                        <p>Posted {formatDate(item.created_at)}</p>
                       </div>
 
                       {/* Seller Info */}
                       <div className="flex items-center justify-between pt-3 border-t">
                         <div className="flex items-center gap-2">
-                          <span className="text-2xl">{item.seller.avatar}</span>
+                          <span className="text-2xl">{item.seller_avatar || '👤'}</span>
                           <div>
                             <p className="text-sm font-semibold text-gray-900">
-                              {item.seller.name}
+                              {item.seller_name || 'Seller'}
                             </p>
                             <div className="flex items-center gap-1">
-                              <span className="text-yellow-400 text-sm">★</span>
+                              {/* <span className="text-yellow-400 text-sm">★</span> */}
                               <span className="text-xs text-gray-600">
-                                {item.seller.rating}
+                                {item.phone_number || 'N/A'}
                               </span>
                             </div>
                           </div>
                         </div>
-                        <button className="px-3 py-1 bg-indigo-600 text-white text-sm font-semibold rounded hover:bg-indigo-700 transition">
+                        <a
+                          href={`mailto:${item.email}`}
+                          onClick={(e) => e.stopPropagation()}
+                          className="px-3 py-1 bg-indigo-600 text-white text-sm font-semibold rounded hover:bg-indigo-700 transition"
+                        >
                           Contact
-                        </button>
+                        </a>
                       </div>
                     </div>
                   </div>

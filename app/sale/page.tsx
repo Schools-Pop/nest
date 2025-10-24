@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import Header from '@/components/Header';
+import { createItem } from '@/lib/supabase/mutations';
 
 interface FormData {
   title: string;
@@ -59,6 +61,7 @@ export default function SalePage() {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({
@@ -85,39 +88,68 @@ export default function SalePage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/items/create', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      // Prepare data for Supabase
+      const itemData = {
+        title: formData.title,
+        description: formData.description,
+        category: formData.category,
+        condition: formData.condition,
+        price: formData.price.toString(),
+        negotiable: formData.negotiable.toString(),
+        location: formData.location,
+        images: formData.images.join(', '),
+        phone_number: formData.phoneNumber,
+        email: formData.email,
+      };
 
-      const data = await response.json();
+      // Call Supabase mutation
+      const response = await createItem(itemData);
 
-      if (!response.ok) {
-        setError(data.message || 'Failed to create listing');
-        setLoading(false);
-        return;
+      if (!response.success) {
+        throw new Error(response.error || 'Failed to create item listing');
       }
 
-      alert('Item listed successfully!');
-      router.push('/buy');
+      setSuccess(true);
+
+      // Reset form
+      setFormData({
+        title: '',
+        description: '',
+        category: '',
+        condition: '',
+        price: 0,
+        negotiable: false,
+        location: '',
+        images: ['📦', '📦', '📦'],
+        phoneNumber: '',
+        email: '',
+      });
+      setActiveStep(1);
+
+      // Redirect after 2 seconds
+      setTimeout(() => {
+        router.push('/buy?success=true');
+      }, 2000);
     } catch (err) {
-      setError('An error occurred. Please try again.');
+      setError(err instanceof Error ? err.message : 'An error occurred. Please try again.');
+    } finally {
       setLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navigation */}
-      {/* <nav className="sticky top-0 z-50 bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <Link href="/" className="text-2xl font-bold text-indigo-600">
-            StudentNest
+
+      {/* Header */}
+      <div className="bg-white shadow-sm border-b py-4 px-6">
+        <div className="max-w-4xl mx-auto">
+          <Link href="/buy" className="text-indigo-600 hover:text-indigo-700 font-semibold text-sm mb-2 inline-block">
+            ← Back to Marketplace
           </Link>
-          <p className="text-gray-600">Sell Your Item</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Sell Your Item</h1>
+          <p className="text-sm sm:text-base text-gray-600">List your item and connect with buyers</p>
         </div>
-      </nav> */}
+      </div>
 
       {/* Main Content */}
       <div className="max-w-4xl mx-auto px-6 py-8">
@@ -141,8 +173,15 @@ export default function SalePage() {
         <div className="bg-white rounded-lg shadow-sm p-8">
           {/* Error Message */}
           {error && (
-            <div className="mb-6 p-4 bg-red-50 border-2 border-red-200 rounded-lg">
+            <div className="mb-6 p-4 bg-red-50 border-l-4 border-red-600 rounded">
               <p className="text-sm text-red-700 font-semibold">{error}</p>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {success && (
+            <div className="mb-6 p-4 bg-green-50 border-l-4 border-green-600 rounded">
+              <p className="text-sm text-green-700 font-semibold">✓ Item listed successfully! Redirecting...</p>
             </div>
           )}
 
@@ -411,7 +450,8 @@ export default function SalePage() {
         <div className="flex justify-between gap-4 mt-8">
           <button
             onClick={() => setActiveStep(Math.max(1, activeStep - 1))}
-            className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition"
+            disabled={activeStep === 1 || loading || success}
+            className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition disabled:opacity-50"
           >
             ← Previous
           </button>
@@ -419,9 +459,9 @@ export default function SalePage() {
           {activeStep < 3 ? (
             <button
               onClick={() => setActiveStep(activeStep + 1)}
-              disabled={!isStepValid()}
+              disabled={!isStepValid() || loading || success}
               className={`px-6 py-3 font-semibold rounded-lg transition ${
-                isStepValid()
+                isStepValid() && !loading && !success
                   ? 'bg-indigo-600 text-white hover:bg-indigo-700'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
@@ -431,14 +471,14 @@ export default function SalePage() {
           ) : (
             <button
               onClick={handleSubmit}
-              disabled={loading}
+              disabled={loading || success}
               className={`px-6 py-3 font-semibold rounded-lg transition ${
-                loading
+                loading || success
                   ? 'bg-gray-400 text-white cursor-not-allowed'
                   : 'bg-green-600 text-white hover:bg-green-700'
               }`}
             >
-              {loading ? 'Publishing...' : 'Publish Listing'}
+              {loading ? 'Publishing...' : success ? '✓ Published' : 'Publish Listing'}
             </button>
           )}
         </div>

@@ -40,13 +40,12 @@ const amenityOptions = [
   'Private Bathroom',
 ];
 
-export default function AddRoommatePage() {
+export default function AddRoomPage() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState(false);
-
+  
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     lastName: '',
@@ -65,11 +64,7 @@ export default function AddRoommatePage() {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    if (name === 'rentAmount' || name === 'bikeCostToSchool') {
-      setFormData((prev) => ({ ...prev, [name]: parseInt(value) || 0 }));
-    } else {
-      setFormData((prev) => ({ ...prev, [name]: value }));
-    }
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleAmenityToggle = (amenity: string) => {
@@ -85,7 +80,6 @@ export default function AddRoommatePage() {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess(false);
 
     try {
       // Validate form data
@@ -99,10 +93,7 @@ export default function AddRoommatePage() {
         throw new Error('Please select gender preference and at least one amenity');
       }
 
-      // Convert amenities array to comma-separated string
-      const amenitiesText = formData.amenities.join(', ');
-
-      // Prepare data for Supabase (all as text/strings)
+      // Prepare data for Supabase
       const roomData = {
         owner_first_name: formData.firstName,
         owner_last_name: formData.lastName,
@@ -111,10 +102,12 @@ export default function AddRoommatePage() {
         title: formData.roomTitle,
         description: formData.roomDescription,
         location: formData.location,
-        rent: formData.rentAmount.toString(),
-        bike_cost_to_school: formData.bikeCostToSchool.toString(),
+        price: formData.rentAmount,
+        bike_cost_to_school: formData.bikeCostToSchool,
         gender_required: formData.genderRequired,
-        amenities: amenitiesText,
+        amenities: formData.amenities,
+        rating: 0,
+        reviews: 0,
       };
 
       // Call Supabase mutation
@@ -124,31 +117,10 @@ export default function AddRoommatePage() {
         throw new Error(response.error || 'Failed to create room listing');
       }
 
-      setSuccess(true);
-      
-      // Reset form
-      setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        roomTitle: '',
-        roomDescription: '',
-        location: '',
-        rentAmount: 100000,
-        bikeCostToSchool: 500,
-        genderRequired: '',
-        amenities: [],
-      });
-      setCurrentStep(1);
-
-      // Redirect after 2 seconds
-      setTimeout(() => {
-        router.push('/roommates?success=true');
-      }, 2000);
+      // Success - redirect to roommates page
+      router.push('/roommates?success=true');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
       setLoading(false);
     }
   };
@@ -173,6 +145,7 @@ export default function AddRoommatePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Header />
 
       {/* Header */}
       <div className="bg-white shadow-sm border-b py-4 px-6">
@@ -192,13 +165,6 @@ export default function AddRoommatePage() {
           {error && (
             <div className="bg-red-50 border-l-4 border-red-600 p-4 rounded">
               <p className="text-red-700 font-semibold">{error}</p>
-            </div>
-          )}
-
-          {/* Success Message */}
-          {success && (
-            <div className="bg-green-50 border-l-4 border-green-600 p-4 rounded">
-              <p className="text-green-700 font-semibold">✓ Room listed successfully! Redirecting...</p>
             </div>
           )}
 
@@ -432,7 +398,7 @@ export default function AddRoommatePage() {
             <button
               type="button"
               onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-              disabled={currentStep === 1 || loading || success}
+              disabled={currentStep === 1}
               className="px-6 py-3 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-50 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               ← Back
@@ -442,7 +408,7 @@ export default function AddRoommatePage() {
               <button
                 type="button"
                 onClick={() => setCurrentStep(currentStep + 1)}
-                disabled={!canProceed || loading || success}
+                disabled={!canProceed}
                 className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
               >
                 Next →
@@ -450,10 +416,10 @@ export default function AddRoommatePage() {
             ) : (
               <button
                 type="submit"
-                disabled={loading || !canProceed || success}
+                disabled={loading || !canProceed}
                 className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition disabled:bg-gray-400 disabled:cursor-not-allowed text-sm"
               >
-                {loading ? 'Publishing...' : success ? '✓ Published' : 'Publish Room'}
+                {loading ? 'Publishing...' : 'Publish Room'}
               </button>
             )}
           </div>

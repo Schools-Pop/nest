@@ -1,202 +1,95 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import Header from '@/components/Header';
+import { getListings } from '@/lib/supabase/queries';
 
-interface Room {
+interface Listing {
   id: string;
+  owner_first_name: string;
+  owner_last_name: string;
+  owner_email: string;
+  owner_phone: string;
   title: string;
   description: string;
-  type: 'single' | 'shared' | 'apartment';
-  price: number;
-  amenities: string[];
-}
-
-interface HouseOwnerProfile {
-  id: string;
-  name: string;
-  age: number;
-  university: string;
-  image: string;
-  description: string;
   location: string;
-  phone: string;
-  email: string;
-  rating: number;
-  reviews: number;
-  availableRooms: Room[];
+  rent: string;
+  bike_cost_to_school: string;
+  gender_required: string;
+  amenities: string;
+  created_at: string;
 }
-
-const HOUSE_OWNERS: HouseOwnerProfile[] = [
-  {
-    id: '1',
-    name: 'Sarah Johnson',
-    age: 26,
-    university: 'Carnegie Mellon University Africa',
-    image: '👩‍🏫',
-    description: 'Friendly house owner, well-maintained property in prime location.',
-    location: 'Gisozi, Kigali',
-    phone: '+250 788 123 456',
-    email: 'sarah.johnson@cmu.edu',
-    rating: 4.8,
-    reviews: 12,
-    availableRooms: [
-      {
-        id: 'r1',
-        title: 'Spacious Single Room',
-        description: 'Bright and airy room with large window, perfect for students',
-        type: 'single',
-        price: 150000,
-        amenities: ['WiFi', 'Furnished', 'Kitchen Access', 'Water', 'Electricity'],
-      },
-      {
-        id: 'r2',
-        title: 'Cozy Shared Room',
-        description: 'Share with one other student, great for social people',
-        type: 'shared',
-        price: 100000,
-        amenities: ['WiFi', 'Furnished', 'Kitchen Access', 'Water'],
-      },
-    ],
-  },
-  {
-    id: '2',
-    name: 'James Mutua',
-    age: 28,
-    university: 'Carnegie Mellon University Africa',
-    image: '👨‍💼',
-    description: 'Professional landlord, quiet neighborhood, secure compound.',
-    location: 'Nyamirambo, Kigali',
-    phone: '+250 788 234 567',
-    email: 'james.mutua@alu.edu',
-    rating: 4.9,
-    reviews: 18,
-    availableRooms: [
-      {
-        id: 'r3',
-        title: 'Premium Single Room with AC',
-        description: 'Air-conditioned room with en-suite bathroom, top floor',
-        type: 'single',
-        price: 180000,
-        amenities: ['WiFi', 'AC', 'En-suite', 'Parking', 'Water', 'Electricity'],
-      },
-    ],
-  },
-  {
-    id: '3',
-    name: 'Amina Hassan',
-    age: 30,
-    university: 'Carnegie Mellon University Africa',
-    image: '👩‍🏠',
-    description: 'Experienced property manager, student-friendly environment.',
-    location: 'Remera, Kigali',
-    phone: '+250 788 345 678',
-    email: 'amina.hassan@ur.edu',
-    rating: 4.7,
-    reviews: 15,
-    availableRooms: [
-      {
-        id: 'r4',
-        title: 'Modern Apartment',
-        description: 'Full apartment with living area, bedroom, and kitchen',
-        type: 'apartment',
-        price: 250000,
-        amenities: ['WiFi', 'Furnished', 'Full Kitchen', 'AC', 'Parking', 'Balcony'],
-      },
-      {
-        id: 'r5',
-        title: 'Shared Room with Balcony',
-        description: 'Share with one roommate, room has access to balcony',
-        type: 'shared',
-        price: 120000,
-        amenities: ['WiFi', 'Furnished', 'Kitchen Access', 'Water', 'Balcony Access'],
-      },
-    ],
-  },
-  {
-    id: '4',
-    name: 'David Okonkwo',
-    age: 32,
-    university: 'Carnegie Mellon University Africa',
-    image: '👨‍🏢',
-    description: 'Property investor with multiple student accommodations.',
-    location: 'Kacyiru, Kigali',
-    phone: '+250 788 456 789',
-    email: 'david.okonkwo@cmu.edu',
-    rating: 4.6,
-    reviews: 22,
-    availableRooms: [
-      {
-        id: 'r6',
-        title: 'Single Room with Workspace',
-        description: 'Quiet room with desk setup, perfect for students',
-        type: 'single',
-        price: 140000,
-        amenities: ['WiFi', 'Furnished', 'Desk', 'Water', 'Electricity', 'Parking'],
-      },
-    ],
-  },
-  {
-    id: '5',
-    name: 'Grace Kipchoge',
-    age: 27,
-    university: 'Carnegie Mellon University Africa',
-    image: '👩‍🏘️',
-    description: 'Eco-conscious landlord, sustainable living focused.',
-    location: 'Muhima, Kigali',
-    phone: '+250 788 567 890',
-    email: 'grace.kipchoge@alu.edu',
-    rating: 4.9,
-    reviews: 10,
-    availableRooms: [
-      {
-        id: 'r7',
-        title: 'Eco-Friendly Shared Room',
-        description: 'Sustainable living space with natural lighting',
-        type: 'shared',
-        price: 95000,
-        amenities: ['WiFi', 'Water', 'Electricity', 'Shared Spaces', 'Garden Access'],
-      },
-    ],
-  },
-];
 
 export default function RoommatesPage() {
   const router = useRouter();
+  const [listings, setListings] = useState<Listing[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedLocation, setSelectedLocation] = useState<string>('all');
-  const [selectedRoomType, setSelectedRoomType] = useState<string>('all');
+  const [selectedGender, setSelectedGender] = useState<string>('all');
   const [maxPrice, setMaxPrice] = useState(300000);
 
-  const locations = ['all', 'Gisozi, Kigali', 'Nyamirambo, Kigali', 'Remera, Kigali', 'Kacyiru, Kigali', 'Muhima, Kigali'];
+  // Fetch listings from Supabase
+  useEffect(() => {
+    const fetchListings = async () => {
+      try {
+        setLoading(true);
+        const response = await getListings();
+        if (response.success) {
+          setListings(response.data || []);
+        } else {
+          setError(response.error || 'Failed to load listings');
+        }
+      } catch (err) {
+        setError('Failed to load listings');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const roomTypes = ['all', 'single', 'shared', 'apartment'];
+    fetchListings();
+  }, []);
 
-  const filteredOwners = useMemo(() => {
-    return HOUSE_OWNERS.filter((owner) => {
+  // Get unique locations from listings
+  const locations = useMemo(() => {
+    const locs = new Set(['all']);
+    listings.forEach(listing => locs.add(listing.location));
+    return Array.from(locs);
+  }, [listings]);
+
+  // Filter listings
+  const filteredListings = useMemo(() => {
+    return listings.filter((listing) => {
       const matchSearch =
-        owner.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        owner.location.toLowerCase().includes(searchTerm.toLowerCase());
+        listing.owner_first_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        listing.owner_last_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        listing.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        listing.location.toLowerCase().includes(searchTerm.toLowerCase());
 
       const matchLocation =
-        selectedLocation === 'all' || owner.location === selectedLocation;
+        selectedLocation === 'all' || listing.location === selectedLocation;
 
-      const matchRoomType =
-        selectedRoomType === 'all' || owner.availableRooms.some(room => room.type === selectedRoomType);
+      const matchGender =
+        selectedGender === 'all' || listing.gender_required === selectedGender;
 
-      const matchPrice = owner.availableRooms.some(room => room.price <= maxPrice);
+      const matchPrice = parseInt(listing.rent) <= maxPrice;
 
-      return matchSearch && matchLocation && matchRoomType && matchPrice;
-    });
-  }, [searchTerm, selectedLocation, selectedRoomType, maxPrice]);
+      return matchSearch && matchLocation && matchGender && matchPrice;
+    }).sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  }, [listings, searchTerm, selectedLocation, selectedGender, maxPrice]);
+
+  const parseAmenities = (amenitiesStr: string) => {
+    return amenitiesStr?.split(',').map(a => a.trim()).filter(a => a) || [];
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
 
       {/* Header */}
-      <div className="max-w-7xl mx-auto  bg-white shadow-sm border-b py-4 px-6">
+      <div className="max-w-7xl mx-auto bg-white shadow-sm border-b py-4 px-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Find a Room</h1>
@@ -219,11 +112,11 @@ export default function RoommatesPage() {
             {/* Search */}
             <div>
               <label className="block text-sm font-semibold text-gray-900 mb-2">
-                Search by Owner Name or Location
+                Search by Owner Name, Title, or Location
               </label>
               <input
                 type="text"
-                placeholder="e.g., Sarah, Gisozi..."
+                placeholder="e.g., Sarah, Single Room, Gisozi..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900 placeholder-gray-400"
@@ -250,21 +143,20 @@ export default function RoommatesPage() {
                 </select>
               </div>
 
-              {/* Room Type Filter */}
+              {/* Gender Filter */}
               <div>
                 <label className="block text-sm font-semibold text-gray-900 mb-2">
-                  Room Type
+                  Gender Preference
                 </label>
                 <select
-                  value={selectedRoomType}
-                  onChange={(e) => setSelectedRoomType(e.target.value)}
+                  value={selectedGender}
+                  onChange={(e) => setSelectedGender(e.target.value)}
                   className="w-full px-4 py-2 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-indigo-600 text-gray-900"
                 >
-                  {roomTypes.map((type) => (
-                    <option key={type} value={type} className="text-gray-900">
-                      {type === 'all' ? 'All Room Types' : type.charAt(0).toUpperCase() + type.slice(1)}
-                    </option>
-                  ))}
+                  <option value="all">All Preferences</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="any">Any</option>
                 </select>
               </div>
 
@@ -287,15 +179,32 @@ export default function RoommatesPage() {
           </div>
         </div>
 
-        {/* Results Count */}
-        <div className="mb-6">
-          <h2 className="text-lg font-bold text-gray-900">
-            {filteredOwners.length} House Owner{filteredOwners.length !== 1 ? 's' : ''} with Available Rooms
-          </h2>
-        </div>
+        {/* Error State */}
+        {error && !loading && (
+          <div className="bg-red-50 border-l-4 border-red-600 p-4 rounded mb-6">
+            <p className="text-red-700 font-semibold">{error}</p>
+          </div>
+        )}
 
-        {/* House Owners with Rooms */}
-        {filteredOwners.length === 0 ? (
+        {/* Loading State */}
+        {loading && (
+          <div className="bg-white rounded-lg shadow-sm p-12 text-center">
+            <div className="text-3xl mb-4">⏳</div>
+            <p className="text-gray-600">Loading listings...</p>
+          </div>
+        )}
+
+        {/* Results Count */}
+        {!loading && (
+          <div className="mb-6">
+            <h2 className="text-lg font-bold text-gray-900">
+              {filteredListings.length} Room{filteredListings.length !== 1 ? 's' : ''} Available
+            </h2>
+          </div>
+        )}
+
+        {/* No Listings Found */}
+        {!loading && filteredListings.length === 0 && !error && (
           <div className="bg-white rounded-lg shadow-sm p-12 text-center">
             <div className="text-5xl mb-4">🔍</div>
             <h3 className="text-2xl font-bold text-gray-900 mb-2">No Rooms Found</h3>
@@ -304,7 +213,7 @@ export default function RoommatesPage() {
               onClick={() => {
                 setSearchTerm('');
                 setSelectedLocation('all');
-                setSelectedRoomType('all');
+                setSelectedGender('all');
                 setMaxPrice(300000);
               }}
               className="px-6 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition"
@@ -312,68 +221,87 @@ export default function RoommatesPage() {
               Reset Filters
             </button>
           </div>
-        ) : (
+        )}
+
+        {/* Listings */}
+        {!loading && filteredListings.length > 0 && (
           <div className="space-y-6">
-            {filteredOwners.map((owner) => (
-              <div key={owner.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
+            {filteredListings.map((listing) => (
+              <div key={listing.id} className="bg-white rounded-lg shadow-sm overflow-hidden">
                 {/* Owner Header */}
                 <div className="p-6 border-b bg-gradient-to-r from-indigo-50 to-purple-50">
-                  <div className="flex items-start gap-4">
-                    <div className="text-4xl">{owner.image}</div>
+                  <div className="flex items-start gap-4 mb-4">
+                    <div className="text-4xl">👤</div>
                     <div className="flex-1">
-                      <h3 className="text-2xl font-bold text-gray-900">{owner.name}</h3>
-                      <p className="text-sm text-gray-600 mb-2">{owner.age} years old • {owner.university}</p>
-                      <p className="text-gray-700 mb-2">{owner.description}</p>
-                      <p className="text-sm text-gray-600">📍 {owner.location}</p>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <span className="text-yellow-400">★</span>
-                      <span className="font-semibold text-gray-900">{owner.rating}</span>
-                      <span className="text-sm text-gray-600">({owner.reviews})</span>
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {listing.owner_first_name} {listing.owner_last_name}
+                      </h3>
+                      <p className="text-sm text-gray-600 mb-2">Room Owner</p>
+                      <p className="text-gray-700">{listing.description}</p>
+                      <p className="text-sm text-gray-600 mt-2">📍 {listing.location}</p>
                     </div>
                   </div>
                 </div>
 
-                {/* Available Rooms */}
+                {/* Room Details */}
                 <div className="p-6">
-                  <h4 className="text-lg font-bold text-gray-900 mb-4">Available Rooms</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {owner.availableRooms
-                      .filter(room => (selectedRoomType === 'all' || room.type === selectedRoomType) && room.price <= maxPrice)
-                      .map((room) => (
-                        <div key={room.id} className="border-2 border-gray-200 rounded-lg p-4 hover:border-indigo-400 transition">
-                          <div className="flex justify-between items-start mb-2">
-                            <h5 className="text-lg font-semibold text-gray-900">{room.title}</h5>
-                            <span className="text-xl font-bold text-indigo-600">{(room.price / 1000).toFixed(0)}K RWF</span>
-                          </div>
-                          <p className="text-sm text-gray-600 mb-3">{room.description}</p>
-                          <div className="flex flex-wrap gap-2 mb-3">
-                            {room.amenities.map((amenity, idx) => (
-                              <span key={idx} className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded">
-                                {amenity}
-                              </span>
-                            ))}
-                          </div>
-                          <div className="flex gap-2">
-                            <span className="inline-block text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full capitalize">
-                              {room.type} Room
-                            </span>
-                          </div>
-                        </div>
-                      ))}
+                  <div className="mb-6">
+                    <div className="flex justify-between items-start mb-3">
+                      <div>
+                        <h4 className="text-2xl font-bold text-gray-900 mb-1">{listing.title}</h4>
+                        <p className="text-sm text-gray-600">{listing.description}</p>
+                      </div>
+                      <span className="text-3xl font-bold text-indigo-600 whitespace-nowrap ml-4">
+                        {(parseInt(listing.rent) / 1000).toFixed(0)}K RWF
+                      </span>
+                    </div>
+
+                    {/* Key Info Grid */}
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 my-4">
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-xs text-gray-600 font-semibold">Monthly Rent</p>
+                        <p className="text-lg font-bold text-gray-900">{(parseInt(listing.rent) / 1000).toFixed(0)}K RWF</p>
+                      </div>
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-xs text-gray-600 font-semibold">Bike to School</p>
+                        <p className="text-lg font-bold text-gray-900">{listing.bike_cost_to_school} RWF</p>
+                      </div>
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-xs text-gray-600 font-semibold">Gender</p>
+                        <p className="text-lg font-bold text-gray-900 capitalize">{listing.gender_required}</p>
+                      </div>
+                      <div className="bg-gray-50 p-3 rounded-lg">
+                        <p className="text-xs text-gray-600 font-semibold">Listed</p>
+                        <p className="text-lg font-bold text-gray-900">
+                          {new Date(listing.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Amenities */}
+                    <div className="mt-4">
+                      <p className="text-sm font-semibold text-gray-900 mb-2">Amenities Included:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {parseAmenities(listing.amenities).map((amenity, idx) => (
+                          <span key={idx} className="text-xs bg-indigo-100 text-indigo-700 px-3 py-1 rounded-full">
+                            {amenity}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
 
                 {/* Contact Section */}
                 <div className="p-6 bg-gray-50 border-t flex gap-3">
                   <a
-                    href={`tel:${owner.phone}`}
+                    href={`tel:${listing.owner_phone}`}
                     className="flex-1 px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition text-center text-sm"
                   >
-                    📞 Call: {owner.phone}
+                    📞 Call: {listing.owner_phone}
                   </a>
                   <a
-                    href={`mailto:${owner.email}`}
+                    href={`mailto:${listing.owner_email}`}
                     className="flex-1 px-4 py-2 border-2 border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-50 transition text-center text-sm"
                   >
                     ✉️ Email
