@@ -66,16 +66,16 @@ export default function HomePage() {
               >
                 🏠 Find Housing
               </button>
-              <Link
+              {/* <Link
                 href="/auth/register"
                 className="px-8 py-4 bg-transparent border-2 border-white text-white font-bold rounded-lg hover:bg-white hover:text-indigo-600 transition text-lg"
               >
                 Get Started
-              </Link>
+              </Link> */}
             </div>
 
             {/* AI Assistant Quick Access */}
-            <div className="mt-12 max-w-2xl mx-auto">
+            {/* <div className="mt-12 max-w-2xl mx-auto">
               <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 hover:bg-white/15 transition cursor-pointer group" onClick={() => router.push('/ask')}>
                 <div className="flex items-center justify-between">
                   <div className="text-left flex-1">
@@ -88,7 +88,7 @@ export default function HomePage() {
                 </div>
                 <p className="text-xs text-indigo-100 mt-3">Get instant answers about courses, housing, events, and more</p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </section>
@@ -298,7 +298,7 @@ export default function HomePage() {
       </section>
 
       {/* Student Resource Center Section */}
-      <section className="py-24 px-6 bg-gradient-to-br from-purple-50 to-indigo-50">
+      {/* <section className="py-24 px-6 bg-gradient-to-br from-purple-50 to-indigo-50">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-bold text-gray-900 mb-4">
@@ -358,7 +358,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Features Section */}
       <section className="py-24 px-6">

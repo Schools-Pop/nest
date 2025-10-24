@@ -141,11 +141,11 @@ export default function Header() {
             {/* <li><Link href="/ask" className={getLinkClass('/ask')}><span className="text-base sm:text-lg">🤖</span> <span className="hidden xl:inline">Wiki</span></Link></li> */}
             {/* <li><Link href="/about" className={getLinkClass('/about')}><span className="text-base sm:text-lg">ℹ️</span> <span className="hidden xl:inline">About</span></Link></li> */}
 
-            <li><Link href="/auth/login" className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition text-sm ${
+            {/* <li><Link href="/auth/login" className={`px-3 sm:px-4 py-2 rounded-lg font-semibold transition text-sm ${
               isScrolled 
                 ? 'text-white border-2 border-white hover:bg-white hover:text-indigo-600'
                 : 'text-indigo-600 border-2 border-indigo-600 hover:bg-indigo-600 hover:text-white'
-            }`}>Sign In</Link></li>
+            }`}>Sign In</Link></li> */}
           </ul>
 
           {/* Mobile Menu Button */}
@@ -203,7 +203,7 @@ export default function Header() {
                 <span className="text-base">ℹ️</span> About
               </Link> */}
 
-              <Link
+              {/* <Link
                 href="/auth/login"
                 onClick={() => setMobileMenuOpen(false)}
                 className={`block px-4 py-2 border-2 rounded-lg transition font-semibold text-center text-sm ${
@@ -213,7 +213,7 @@ export default function Header() {
                 }`}
               >
                 Sign In
-              </Link>
+              </Link> */}
             </div>
           </div>
         )}
